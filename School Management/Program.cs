@@ -7,7 +7,7 @@ namespace School_Management
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            DateTime dob = new DateTime(2008, 6, 1, 7, 47, 0);
+            DateTime dob = new DateTime(2008, 6, 1);
             Person p = new Person("John", dob);
 
             Console.WriteLine(p.Age);

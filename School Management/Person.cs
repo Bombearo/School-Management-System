@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace School_Management
 {
-    class Person
+    class Person:IPerson
     {
 
         public Person(string name,DateTime dateOfBirth)
