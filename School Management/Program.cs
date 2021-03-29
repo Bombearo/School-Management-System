@@ -8,9 +8,11 @@ namespace School_Management
         {
             Console.WriteLine("Hello World!");
             DateTime dob = new DateTime(2008, 6, 1);
-            Person p = new Person("John", dob);
+            Teacher t = new Teacher("John", "Hathorne", dob,"Maths",10000);
 
-            Console.WriteLine(p.Age);
+
+            t.AddTeacher();
+            Console.WriteLine(t.Age);
         }
     }
 }

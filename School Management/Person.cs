@@ -36,7 +36,7 @@ namespace School_Management
         public int Age
         {get 
             {
-                int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+                int now = int.Parse(DateTime.Today.ToString("yyyyMMdd"));
                 int dob = int.Parse(this.DateOfBirth.ToString("yyyyMMdd"));
                 return (now - dob) / 10000;
             }

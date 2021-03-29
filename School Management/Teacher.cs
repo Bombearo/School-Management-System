@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
+using Dapper;
+using System.Data;
 
 namespace School_Management
 {
     class Teacher:Person
     {
-        public Teacher(string forename,string surname,DateTime dateOfBirth,string expertise,int salary) : base(forename,surname,dateOfBirth)
+        public Teacher(string forename,
+            string surname,
+            DateTime dateOfBirth,
+            string expertise,
+            int salary) : base(forename,surname,dateOfBirth)
         {
             this.Salary = salary;
             this.BonusAdded = false;
@@ -34,6 +41,15 @@ namespace School_Management
                 Console.WriteLine($"{this.Name} has already received a bonus. A bonus cannot be applied again");
             }
 
+        }
+
+        public void AddTeacher()
+        {
+            using (IDbConnection connection = new SqlConnection(Helper.ConnectionString))
+            {
+                Console.WriteLine("Connection Opened!");
+                // Do work here; connection closed on following line.
+            }
         }
     }
 }
