@@ -1,10 +1,10 @@
-﻿CREATE TABLE [dbo].[Student]
+﻿CREATE TABLE [dbo].[Pupil]
 (
-	[Id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	[forename] VARCHAR(30) NOT NULL,
-	[surname] VARCHAR(30) NOT NULL,
-	[dob] date NOT NULL,
-	[dateJoined] date NOT NULL,
-	[contactNo] VARCHAR(11),
-	[emailAddress] VARCHAR(50)
+	[PupilId] INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	[Forename] VARCHAR(30) NOT NULL,
+	[Surname] VARCHAR(30) NOT NULL,
+	[DateOfBirth] date NOT NULL,
+	[DateJoined] date NOT NULL,
+	[ContactNo] VARCHAR(11),
+	[EmailAddress] VARCHAR(50)
 )

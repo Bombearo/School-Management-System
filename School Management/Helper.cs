@@ -8,10 +8,10 @@ namespace School_Management
 {
     public static class Helper
     {
-        public static string ConnectionString 
-        { get 
-            { return "Server=.;Database=SchoolDB;Trusted_Connection=True;"; 
-            } 
+        public static string GetConnectionString(string dbName)
+        { 
+             return $"Server=.;Database={dbName};Trusted_Connection=True;"; 
+           
         }
 
     }

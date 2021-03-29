@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
-using Dapper;
-using System.Data;
 
 namespace School_Management
 {
@@ -45,11 +42,7 @@ namespace School_Management
 
         public void AddTeacher()
         {
-            using (IDbConnection connection = new SqlConnection(Helper.ConnectionString))
-            {
-                Console.WriteLine("Connection Opened!");
-                // Do work here; connection closed on following line.
-            }
+
         }
     }
 }

@@ -10,11 +10,13 @@ namespace School_Management
     class Person:IPerson
     {
 
-        public Person(string forename,string surname,DateTime dateOfBirth)
+        public Person(string forename,string surname,DateTime dateOfBirth,string contactNo = "",string emailAddress = "")
         {
             this.Forename = forename;
             this.Surname = surname;
             this.DateOfBirth = dateOfBirth;
+            this.ContactNo = contactNo;
+            this.EmailAddress = emailAddress;
         }
         
         protected string Forename{get;private set;}
@@ -30,8 +32,6 @@ namespace School_Management
         protected string ContactNo { get; set; }
 
         protected string EmailAddress { get; set; }
-
-        public string Email { get; set; }
 
         public int Age
         {get 

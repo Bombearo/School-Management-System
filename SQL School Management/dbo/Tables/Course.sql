@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Course]
 (
-	[Id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	[subject] VARCHAR(30) NOT NULL,
-	[scqf] INT NOT NULL CHECK (scqf <10),
-	[level] VARCHAR(15) NOT NULL
+	[CourseId] INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	[Subject] VARCHAR(30) NOT NULL,
+	[Scqf] INT NOT NULL CHECK ([Scqf] <10),
+	[Level] VARCHAR(15) NOT NULL
 	)
