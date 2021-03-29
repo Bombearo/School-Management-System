@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace School_Management
 {
@@ -18,6 +19,8 @@ namespace School_Management
 
         public string Name{get;private set;}
         protected DateTime DateOfBirth {get; private set;}
+
+        public string Email { get; set; }
 
         public int Age
         {get 

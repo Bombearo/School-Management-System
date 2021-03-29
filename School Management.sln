@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "School Management", "School Management\School Management.csproj", "{29E38C2E-038C-4CB1-9A04-8BBADCD9D24E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School Management", "School Management\School Management.csproj", "{29E38C2E-038C-4CB1-9A04-8BBADCD9D24E}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SQL School Management", "SQL School Management\SQL School Management.sqlproj", "{6881D4F6-04B4-4E42-B02B-B38F8007F4B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,12 @@ Global
 		{29E38C2E-038C-4CB1-9A04-8BBADCD9D24E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29E38C2E-038C-4CB1-9A04-8BBADCD9D24E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29E38C2E-038C-4CB1-9A04-8BBADCD9D24E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6881D4F6-04B4-4E42-B02B-B38F8007F4B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6881D4F6-04B4-4E42-B02B-B38F8007F4B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6881D4F6-04B4-4E42-B02B-B38F8007F4B5}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6881D4F6-04B4-4E42-B02B-B38F8007F4B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6881D4F6-04B4-4E42-B02B-B38F8007F4B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6881D4F6-04B4-4E42-B02B-B38F8007F4B5}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
