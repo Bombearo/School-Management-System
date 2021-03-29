@@ -10,6 +10,9 @@ namespace School_Management
     {
         public string CourseID { get; private set; }
         public string Subject { get; private set; }
+        public string Level { get; private set; }
+        public int Scqf { get; private set; }
+
 
     }
 }

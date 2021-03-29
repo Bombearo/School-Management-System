@@ -8,7 +8,7 @@ namespace School_Management
 {
     class Teacher:Person
     {
-        public Teacher(string name,DateTime dateOfBirth,string expertise,int salary) : base(name,dateOfBirth)
+        public Teacher(string forename,string surname,DateTime dateOfBirth,string expertise,int salary) : base(forename,surname,dateOfBirth)
         {
             this.Salary = salary;
             this.BonusAdded = false;
@@ -18,6 +18,8 @@ namespace School_Management
         public int Salary { get; set; }
         public string Expertise { get; set; }
         private bool BonusAdded { get; set; }
+
+
 
         // Adds a bonus to the Teacher's salary. The salary cannot receive another bonus until the Bonus is reset
         void AddBonus(int amount)
