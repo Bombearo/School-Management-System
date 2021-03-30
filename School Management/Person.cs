@@ -10,7 +10,7 @@ namespace School_Management
     class Person:IPerson
     {
 
-        public Person(string forename,string surname,DateTime dateOfBirth,string contactNo = "",string emailAddress = "")
+        public Person(string forename,string surname,DateTime dateOfBirth,string contactNo = null,string emailAddress = null)
         {
             this.Forename = forename;
             this.Surname = surname;
@@ -19,19 +19,19 @@ namespace School_Management
             this.EmailAddress = emailAddress;
         }
         
-        protected string Forename{get;private set;}
-        protected string Surname { get; private set; }
+        public string Forename{get; protected set; }
+        public string Surname { get; protected set; }
 
         public string Name
         {
             get { return $"{Forename} {Surname}"; }
         }
 
-        protected DateTime DateOfBirth {get; private set;}
+        public DateTime DateOfBirth {get; protected set;}
 
-        protected string ContactNo { get; set; }
+        public string ContactNo { get; protected set; }
 
-        protected string EmailAddress { get; set; }
+        public string EmailAddress { get; protected set; }
 
         public int Age
         {get 

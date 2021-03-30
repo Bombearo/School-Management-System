@@ -12,7 +12,9 @@ namespace School_Management
             string surname,
             DateTime dateOfBirth,
             string expertise,
-            int salary) : base(forename,surname,dateOfBirth)
+            int salary,
+            string contactInfo = null,
+            string emailAddress = null) : base(forename,surname,dateOfBirth,contactInfo,emailAddress)
         {
             this.Salary = salary;
             this.BonusAdded = false;
@@ -40,9 +42,11 @@ namespace School_Management
 
         }
 
-        public void AddTeacher()
+        public void AddSelf()
         {
+            DataAccess db = new DataAccess();
 
+            db.AddTeacher(this.Forename,this.Surname,this.DateOfBirth,this.Expertise,this.Salary,this.ContactNo,this.EmailAddress);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace School_Management
             Teacher t = new Teacher("John", "Hathorne", dob,"Maths",10000);
 
 
-            t.AddTeacher();
+            t.AddSelf();
             Console.WriteLine(t.Age);
         }
     }
