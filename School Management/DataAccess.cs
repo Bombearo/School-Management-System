@@ -22,7 +22,6 @@ namespace School_Management
             string contactInfo,
             string emailAddress)
         {
-            List<Teacher> teachers = new List<Teacher>();
 
             int personId = AddPerson(forename, surname, dateOfBirth, contactInfo, emailAddress);
 
@@ -41,6 +40,34 @@ namespace School_Management
 
                 
                 connection.Execute("dbo.InsertTeacher",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+            }
+        }
+
+        public void AddStudent(string forename,
+        string surname,
+        DateTime dateOfBirth,
+        DateTime dateJoined,
+        string contactInfo,
+        string emailAddress)
+        {
+
+            int personId = AddPerson(forename, surname, dateOfBirth, contactInfo, emailAddress);
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@DateJoined", dateJoined);
+            parameters.Add("@PersonId", personId);
+
+
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                Console.WriteLine("Connection Opened!");
+                // Do work here; connection closed on following line.
+
+
+                connection.Execute("dbo.Pupil_Insert",
                     parameters,
                     commandType: CommandType.StoredProcedure);
 
