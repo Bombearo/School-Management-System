@@ -8,7 +8,7 @@ namespace School_Management
         {
             Console.WriteLine("Hello World!");
             DateTime dob = new DateTime(2008, 6, 1);
-            Teacher t = new Teacher("John", "Hathorne", dob,"Maths",10000);
+            Pupil t = new Pupil("Michael", "Beeston", dob,"01312019942","LindsayScott@gmail.com");
 
 
             t.AddSelf();

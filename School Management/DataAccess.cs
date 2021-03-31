@@ -63,10 +63,6 @@ namespace School_Management
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
-                Console.WriteLine("Connection Opened!");
-                // Do work here; connection closed on following line.
-
-
                 connection.Execute("dbo.Pupil_Insert",
                     parameters,
                     commandType: CommandType.StoredProcedure);
