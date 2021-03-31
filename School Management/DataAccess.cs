@@ -38,7 +38,7 @@ namespace School_Management
                 Console.WriteLine("Connection Opened!");
                 // Do work here; connection closed on following line.
 
-                
+
                 connection.Execute("dbo.InsertTeacher",
                     parameters,
                     commandType: CommandType.StoredProcedure);
@@ -94,7 +94,7 @@ namespace School_Management
         string emailAddress)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Forename",forename);
+            parameters.Add("@Forename", forename);
             parameters.Add("@Surname", surname);
             parameters.Add("@DateOfBirth", dateOfBirth);
             parameters.Add("@ContactNo", contactInfo);
@@ -109,6 +109,16 @@ namespace School_Management
                 return PersonId;
             }
         }
+
+        public List<Pupil> GetStudents() {
+
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB"))) {
+                var pupilList = connection.Query<Pupil>("dbo.Get_Students_By_Age").ToList();
+                connection.Close();
+                return pupilList;
+            }
+        }
+
     }
 
 }

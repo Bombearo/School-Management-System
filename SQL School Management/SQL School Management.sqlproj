@@ -61,6 +61,7 @@
     <Folder Include="PublishLocations" />
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="dbo\Scripts" />
+    <Folder Include="dbo\Views" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Course_Class.sql" />
@@ -73,6 +74,8 @@
     <Build Include="dbo\Stored Procedures\People_Insert.sql" />
     <Build Include="dbo\Stored Procedures\Pupil_Insert.sql" />
     <Build Include="dbo\Stored Procedures\Course_Insert.sql" />
+    <Build Include="dbo\Views\FullStudent.sql" />
+    <Build Include="dbo\Stored Procedures\Get_Students_By_Age.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="SQL School Management.refactorlog" />
@@ -82,5 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\SchoolDB.publish.xml" />
+    <None Include="PublishLocations\LocalDBPublish.publish.xml" />
   </ItemGroup>
 </Project>

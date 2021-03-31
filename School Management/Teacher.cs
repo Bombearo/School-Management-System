@@ -22,6 +22,7 @@ namespace School_Management
             this.DateJoined = DateTime.Today;
         }
 
+        public int TeacherId { get; set; }
         public int Salary { get; set; }
         public string Expertise { get; set; }
         public bool BonusAdded { get; set; }

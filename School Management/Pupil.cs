@@ -27,7 +27,26 @@ namespace School_Management
         {
             this.DateJoined = dateJoined;
         }
+
+        //Database Constructor
+        public Pupil(
+        int pupilId,
+        DateTime dateJoined,
+        int personId,
+        string forename,
+        string surname,
+        DateTime dateOfBirth,
+        string emailAddress,
+        string contactNo
+
+        ) : base(forename, surname, dateOfBirth, contactNo, emailAddress)
+        {
+            this.DateJoined = dateJoined;
+            this.PupilId = pupilId;
+            this.PersonId = personId;
+        }
         public int PupilId { get; set; }
+        public int PersonId { get; set; }
         public DateTime DateJoined { get; set; }
 
         public void AddSelf()

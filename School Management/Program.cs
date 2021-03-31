@@ -7,14 +7,14 @@ namespace School_Management
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            DateTime dob = new DateTime(2008, 6, 1);
+            DataAccess db = new DataAccess();
+            var pupils = db.GetStudents();
 
-            Course c = new Course();
-            c.Scqf = 4;
-            c.Subject = "English";
-            c.Level = "National 5";
-
-            c.AddSelf();
+            foreach (Pupil pupil in pupils)
+            {
+                Console.WriteLine($"Age: {pupil.Age}");
+                Console.WriteLine($"Name: {pupil.Name}");
+            }
         }
     }
 }
