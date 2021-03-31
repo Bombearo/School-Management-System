@@ -76,6 +76,7 @@
     <Build Include="dbo\Stored Procedures\Course_Insert.sql" />
     <Build Include="dbo\Views\FullStudent.sql" />
     <Build Include="dbo\Stored Procedures\Get_Students_By_Age.sql" />
+    <Build Include="dbo\Views\FullClass.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="SQL School Management.refactorlog" />
