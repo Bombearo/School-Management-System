@@ -8,11 +8,13 @@ namespace School_Management
         {
             Console.WriteLine("Hello World!");
             DateTime dob = new DateTime(2008, 6, 1);
-            Pupil t = new Pupil("Michael", "Beeston", dob,"01312019942","LindsayScott@gmail.com");
 
+            Course c = new Course();
+            c.Scqf = 4;
+            c.Subject = "English";
+            c.Level = "National 5";
 
-            t.AddSelf();
-            Console.WriteLine(t.Age);
+            c.AddSelf();
         }
     }
 }

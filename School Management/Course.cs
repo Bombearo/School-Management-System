@@ -8,11 +8,14 @@ namespace School_Management
 {
     class Course
     {
-        public string CourseID { get; private set; }
-        public string Subject { get; private set; }
-        public string Level { get; private set; }
-        public int Scqf { get; private set; }
+        public string CourseID { get; set; }
+        public string Subject { get; set; }
+        public string Level { get; set; }
+        public int Scqf { get; set; }
 
-
+        public void AddSelf() {
+            DataAccess db = new DataAccess();
+            db.AddCourse(this.Scqf,this.Level,this.Subject);
+        }
     }
 }

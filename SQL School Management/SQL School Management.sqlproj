@@ -72,6 +72,7 @@
     <Build Include="dbo\Tables\Person.sql" />
     <Build Include="dbo\Stored Procedures\People_Insert.sql" />
     <Build Include="dbo\Stored Procedures\Pupil_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Course_Insert.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="SQL School Management.refactorlog" />
