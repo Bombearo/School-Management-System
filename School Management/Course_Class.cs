@@ -57,6 +57,7 @@ namespace School_Management
             this.DayOfWeek = dayOfWeek;
         }
 
+
         public TimeSpan ClassTime { get; set; }
         public int ClassId { get; set; }
         public int TeacherId { get; set; }
@@ -69,7 +70,7 @@ namespace School_Management
         {
             base.AddSelf();
             DataAccess db = new DataAccess();
-            this.ClassId = db.AddClass(this.DayOfWeek,this.TeacherId,this.ClassTime);
+            this.ClassId = db.AddClass(this.DayOfWeek,this.TeacherId,this.ClassTime, this.CourseID);
 
         }
 

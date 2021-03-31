@@ -9,7 +9,16 @@ namespace School_Management
             Console.WriteLine("Hello World!");
             DataAccess db = new DataAccess();
             var pupils = db.GetClasses();
-            Course c = new Course("Computing Science","Advanced Higher",7);
+            /*
+                     string subject,
+        string level,
+        int scqf,
+        int teacherId,
+        TimeSpan classTime,
+        string dayOfWeek
+             */
+            TimeSpan t = new TimeSpan(9,30,0);
+            var c = new Course_Class("Computing Science","Advanced Higher",7,3,t,"Wednesday");
 
             foreach (Course_Class course in pupils)
             {
@@ -17,10 +26,7 @@ namespace School_Management
                 course.AddSelf();
                 Console.WriteLine($"After: {course.CourseID}");
             }
-
-            Console.WriteLine($"Before: {c.CourseID}");
             c.AddSelf();
-            Console.WriteLine($"After: {c.CourseID}");
         }
     }
 }
