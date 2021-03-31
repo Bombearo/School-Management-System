@@ -23,11 +23,13 @@ namespace School_Management
             int scqf,
             int courseId,
             int teacherId,
-            TimeSpan classTime) : base(courseId,subject,level,scqf)
+            TimeSpan classTime,
+            string dayOfWeek) : base(courseId,subject,level,scqf)
         {
             this.ClassId = classId;
             this.TeacherId = teacherId;
             this.ClassTime = classTime;
+            this.DayOfWeek = dayOfWeek;
         }
         public Course_Class(
         string subject,
@@ -35,20 +37,24 @@ namespace School_Management
         int scqf,
         int courseId,
         int teacherId,
-        TimeSpan classTime) : base(courseId, subject, level, scqf)
+        TimeSpan classTime,
+        string dayOfWeek) : base(courseId, subject, level, scqf)
         {
             this.TeacherId = teacherId;
             this.ClassTime = classTime;
+            this.DayOfWeek = dayOfWeek;
         }
         public Course_Class(
         string subject,
         string level,
         int scqf,
         int teacherId,
-        TimeSpan classTime) : base(subject, level, scqf)
+        TimeSpan classTime,
+        string dayOfWeek) : base(subject, level, scqf)
         {
             this.TeacherId = teacherId;
             this.ClassTime = classTime;
+            this.DayOfWeek = dayOfWeek;
         }
 
         public TimeSpan ClassTime { get; set; }
@@ -63,7 +69,7 @@ namespace School_Management
         {
             base.AddSelf();
             DataAccess db = new DataAccess();
-            this.ClassId = db.AddClass(this.CourseID,this.TeacherId,this.ClassTime);
+            this.ClassId = db.AddClass(this.DayOfWeek,this.TeacherId,this.ClassTime);
 
         }
 

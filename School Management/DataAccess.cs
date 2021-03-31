@@ -63,12 +63,12 @@ namespace School_Management
             }
         }
 
-        internal int AddClass(int courseID, int teacherId, TimeSpan classTime)
+        internal int AddClass(string dayOfWeek, int teacherId, TimeSpan classTime)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Scqf", scqf);
-            parameters.Add("@Level", level);
-            parameters.Add("@Subject", subject);
+            parameters.Add("@DayOfWeek", dayOfWeek);
+            parameters.Add("@TeacherId", teacherId);
+            parameters.Add("@ClassTime", classTime);
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
