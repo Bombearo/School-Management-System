@@ -3,5 +3,5 @@ AS
 Begin
 	SELECT [ClassId], [Subject],[Level], [Scqf], [CourseId], [TeacherId], [ClassTime],[DayOfWeek]
 	FROM dbo.FullClass
-	ORDER BY Subject DESC
+	ORDER BY Subject ASC
 END
