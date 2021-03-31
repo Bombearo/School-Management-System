@@ -1,5 +1,6 @@
 ﻿CREATE VIEW [dbo].[FullClass]
 	AS SELECT 
+	[dbo].[Course].CourseId, 
 	[dbo].[Course].[Subject], 
 	[dbo].[Course].[Scqf], 
 	[dbo].[Course].[Level], 

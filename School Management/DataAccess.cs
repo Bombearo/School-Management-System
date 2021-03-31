@@ -46,6 +46,23 @@ namespace School_Management
             }
         }
 
+        internal int CheckCourse(int scqf, string level, string subject)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Scqf", scqf);
+            parameters.Add("@Level", level);
+            parameters.Add("@Subject", subject);
+
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                int CourseId = connection.QuerySingle<int>("dbo.CheckCourseExists",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+                connection.Close();
+                return CourseId;
+            }
+        }
+
         internal int AddCourse(int scqf, string level, string subject)
         {
             var parameters = new DynamicParameters();
@@ -118,7 +135,16 @@ namespace School_Management
                 return pupilList;
             }
         }
+        public List<Course_Class> GetClasses()
+        {
 
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                var classList = connection.Query<Course_Class>("dbo.Get_Class_By_Subject_Name").ToList();
+                connection.Close();
+                return classList;
+            }
+        }
     }
 
 }

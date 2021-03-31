@@ -8,6 +8,14 @@ namespace School_Management
 {
     class Course_Class:Course
     {
+        /*
+         System.InvalidOperationException: 'A parameterless default constructor or one matching signature (System.Int32 ClassId, System.String Subject, System.String Level,
+        System.Int32 Scqf, System.Int32 CourseId, System.Int32 TeacherId, System.TimeSpan ClassTime) is required for School_Management.Course_Class materialization'
+         
+         */
+
+
+        //Database Constructor
         public Course_Class(
             int classId,
             string subject,
@@ -15,7 +23,7 @@ namespace School_Management
             int scqf,
             int courseId,
             int teacherId,
-            DateTime classTime) : base(courseId,subject,level,scqf)
+            TimeSpan classTime) : base(courseId,subject,level,scqf)
         {
             this.ClassId = classId;
             this.TeacherId = teacherId;
@@ -27,7 +35,7 @@ namespace School_Management
         int scqf,
         int courseId,
         int teacherId,
-        DateTime classTime) : base(courseId, subject, level, scqf)
+        TimeSpan classTime) : base(courseId, subject, level, scqf)
         {
             this.TeacherId = teacherId;
             this.ClassTime = classTime;
@@ -37,15 +45,21 @@ namespace School_Management
         string level,
         int scqf,
         int teacherId,
-        DateTime classTime) : base(subject, level, scqf)
+        TimeSpan classTime) : base(subject, level, scqf)
         {
             this.TeacherId = teacherId;
             this.ClassTime = classTime;
         }
 
-
-        public DateTime ClassTime { get; set; }
+        public TimeSpan ClassTime { get; set; }
         public int ClassId { get; set; }
         public int TeacherId { get; set; }
+
+        public override void AddSelf()
+        {
+            base.AddSelf();
+
+        }
+
     }
 }
