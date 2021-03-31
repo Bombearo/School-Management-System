@@ -19,11 +19,14 @@ namespace School_Management
             this.Salary = salary;
             this.BonusAdded = false;
             this.Expertise = expertise;
+            this.DateJoined = DateTime.Today;
         }
 
         public int Salary { get; set; }
         public string Expertise { get; set; }
-        private bool BonusAdded { get; set; }
+        public bool BonusAdded { get; set; }
+
+        public DateTime DateJoined { get; set; }
 
 
 
@@ -46,7 +49,7 @@ namespace School_Management
         {
             DataAccess db = new DataAccess();
 
-            db.AddTeacher(this.Forename,this.Surname,this.DateOfBirth,this.Expertise,this.Salary,this.ContactNo,this.EmailAddress);
+            db.AddTeacher(this.Forename,this.Surname,this.DateOfBirth,this.DateJoined,this.Expertise,this.BonusAdded,this.Salary,this.ContactNo,this.EmailAddress);
         }
     }
 }

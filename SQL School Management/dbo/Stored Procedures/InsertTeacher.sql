@@ -3,7 +3,7 @@
 	@Salary int,
 	@BonusAdded bit,
 	@Expertise nvarchar(20),
-	@PersonID int
+	@PersonId int
 
 
 AS
