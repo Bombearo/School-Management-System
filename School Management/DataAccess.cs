@@ -63,6 +63,23 @@ namespace School_Management
             }
         }
 
+        internal int AddClass(int courseID, int teacherId, TimeSpan classTime)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Scqf", scqf);
+            parameters.Add("@Level", level);
+            parameters.Add("@Subject", subject);
+
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                int classId = connection.QuerySingle<int>("dbo.Course_Insert",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+                connection.Close();
+                return classId;
+            }
+        }
+
         internal int AddCourse(int scqf, string level, string subject)
         {
             var parameters = new DynamicParameters();

@@ -55,9 +55,15 @@ namespace School_Management
         public int ClassId { get; set; }
         public int TeacherId { get; set; }
 
+        public string DayOfWeek { get; set; } 
+        public Teacher Teacher { get; set; }
+
+
         public override void AddSelf()
         {
             base.AddSelf();
+            DataAccess db = new DataAccess();
+            this.ClassId = db.AddClass(this.CourseID,this.TeacherId,this.ClassTime);
 
         }
 
