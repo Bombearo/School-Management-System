@@ -92,9 +92,9 @@ namespace School_Management
         private static void HomePage()
         {
             string options = "Welcome! Please Enter one of the following options to proceed!";
-            string option1 = "1. View Pupil/Teacher details";
-            string option2 = "2. View Course/Class details";
-            string option3 = "3. Add New Pupils/Teachers/Courses/Classes";
+            string option1 = "1. View Pupil/Teacher/Course/Class details";
+            string option2 = "2. Add New Pupils/Teachers/Courses/Classes";
+            string option3 = "3. Update Existing Pupils/Teachers/Courses/Classes";
             string option4 = "4. Remove Pupils/Teachers/Courses/Classes";
 
             Console.WriteLine(options);
@@ -103,7 +103,7 @@ namespace School_Management
             Console.WriteLine(option3);
             Console.WriteLine(option4);
             Console.WriteLine("Or enter nothing to quit");
-            ShowOptions(ViewPeople,ViewCourse_Classes);
+            ShowOptions(ViewPeople,ViewCourseClasses);
         }
         private static void ViewPeople()
         {
@@ -119,7 +119,7 @@ namespace School_Management
             ShowOptions(ViewPupils,ViewTeachers,HomePage);
         }
 
-        private static void ViewCourse_Classes()
+        private static void ViewCourseClasses()
         {
             string options = "Welcome! Please Enter one of the following options to proceed!";
             string option1 = "1. View Course Details";
