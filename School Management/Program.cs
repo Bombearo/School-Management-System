@@ -136,7 +136,13 @@ namespace School_Management
         //Get the details from DB and display. 
         private static void ViewPupils()
         {
-
+            DataAccess db = new DataAccess();
+            var students = db.GetStudents();
+            int i = 0;
+            foreach(Pupil student in students)
+            {
+                Console.WriteLine($"{++i}. Name:{student.Name} Age:{student.Age}");
+            }
         }
         private static void ViewTeachers()
         {
