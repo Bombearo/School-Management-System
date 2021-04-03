@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace School_Management
 {
@@ -88,6 +89,12 @@ namespace School_Management
             back();
         }
 
+        private static void ShowOptions(List<Pupil> students, int start=0, int end=5,Action back)
+        {
+            throw new NotImplementedException();
+        }
+
+
 
         private static void HomePage()
         {
@@ -143,7 +150,10 @@ namespace School_Management
             {
                 Console.WriteLine($"{++i}. Name:{student.Name} Age:{student.Age}");
             }
+            ShowOptions(students,0,5,ViewPeople);
         }
+
+
         private static void ViewTeachers()
         {
 
