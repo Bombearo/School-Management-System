@@ -89,7 +89,39 @@ namespace School_Management
             back();
         }
 
-        private static void ShowOptions(List<Pupil> students, int start=0, int end=5,Action back)
+        private static void ShowOptions(Action<int> option1, Action<int> option2, Action back,int start = 0)
+        {
+            int choice;
+            bool running = true;
+            do
+            {
+
+                string input = Console.ReadLine();
+                if (!int.TryParse(input, out choice) && input == "")
+                {
+                    choice = -1;
+                }
+                switch (choice)
+                {
+                    case -1:
+                        running = false;
+                        break;
+                    case 1:
+                        option1(start);
+                        break;
+                    case 2:
+                        option2(start);
+                        break;
+                    default:
+                        Console.WriteLine("Your input was not valid, please enter a correct number or nothing to exit.");
+                        break;
+                }
+
+            } while (running);
+            back();
+        }
+
+        private static void ShowOptions(List<Pupil> students,Action back,int start=0)
         {
             throw new NotImplementedException();
         }
@@ -141,29 +173,29 @@ namespace School_Management
         }
 
         //Get the details from DB and display. 
-        private static void ViewPupils()
+        private static void ViewPupils(int start =0)
         {
             DataAccess db = new DataAccess();
             var students = db.GetStudents();
             int i = 0;
             foreach(Pupil student in students)
             {
-                Console.WriteLine($"{++i}. Name:{student.Name} Age:{student.Age}");
+                Console.WriteLine($"{++i}. Name:{student.Name} Age:{student.Age}"); 
             }
-            ShowOptions(students,0,5,ViewPeople);
+            ShowOptions(students,ViewPeople);
         }
 
 
-        private static void ViewTeachers()
+        private static void ViewTeachers(int start = 0)
         {
 
         }
 
-        private static void ViewCourses()
+        private static void ViewCourses(int start = 0)
         {
 
         }
-        private static void ViewClasses()
+        private static void ViewClasses(int start = 0)
         {
 
         }
