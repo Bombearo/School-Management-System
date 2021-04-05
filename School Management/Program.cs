@@ -123,7 +123,68 @@ namespace School_Management
 
         private static void ShowOptions(ISchoolMember[] students, Action back, int start = 0, bool end = false)
         {
-            throw new NotImplementedException();
+            int choice;
+            bool running = true;
+
+            if (start != 0)
+            {
+                //Back button logic
+
+
+            }
+
+            if (end){
+                //Next button logic
+            }
+
+            //Checks if the position is not null
+            static bool ShowPupil(ISchoolMember person = null)
+            {
+                if (person!= null)
+                {
+                    //Go to pupil page function
+                    ShowPerson(person);
+
+                    return true;
+                }
+                Console.WriteLine("Your input was not valid, please enter a correct number or nothing to exit.");
+
+                return false;
+            }
+
+
+
+            do
+            {
+
+                string input = Console.ReadLine();
+                if (!int.TryParse(input, out choice) && input == "")
+                {
+                    choice = -1;
+                }
+                switch (choice)
+                {
+                    case -1:
+                        running = false;
+                        break;
+                    case 0:
+                        break;
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        ISchoolMember person = students[choice - 1];
+                        ShowPupil(person);
+                        break;
+
+
+                    default:
+                        ShowPupil();
+                        break;
+                }
+
+            } while (running);
+            back();
         }
 
 
@@ -228,5 +289,10 @@ namespace School_Management
 
         }
 
+
+        private static void ShowPerson(ISchoolMember person)
+        {
+            Console.WriteLine(person.Name);
+        }
     }
 }
