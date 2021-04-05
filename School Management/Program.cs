@@ -121,7 +121,7 @@ namespace School_Management
             back();
         }
 
-        private static void ShowOptions(List<Pupil> students,Action back,int start=0)
+        private static void ShowOptions(ISchoolMember[] students, Action back, int start = 0, bool end = false)
         {
             throw new NotImplementedException();
         }
@@ -176,13 +176,22 @@ namespace School_Management
         private static void ViewPupils(int start =0)
         {
             DataAccess db = new DataAccess();
+            ISchoolMember[] pupilList = new ISchoolMember[5];
             var students = db.GetStudents();
-            int i = 0;
-            foreach(Pupil student in students)
-            {
-                Console.WriteLine($"{++i}. Name:{student.Name} Age:{student.Age}"); 
+            int j = 0;
+            for (int i = start; i< start + 5;i++) {
+                pupilList[j] = students[i];
+                j++;
             }
-            ShowOptions(students,ViewPeople);
+
+            int counter = 0;
+            foreach(Pupil student in pupilList)
+            {
+                Console.WriteLine($"{++counter}. Name:{student.Name} Age:{student.Age}"); 
+            }
+
+
+            ShowOptions(pupilList,ViewPeople);
         }
 
 

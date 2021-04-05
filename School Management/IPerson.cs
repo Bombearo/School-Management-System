@@ -8,7 +8,12 @@ namespace School_Management
 {
     interface IPerson
     {
-        string Name { get; }
-        int Age { get; }
+        string Name { get; set; }
+        int Age { get; set; }
+
+        string ContactNo { get; set; }
+
+        string EmailAddress { get; set; }
+
     }
 }
