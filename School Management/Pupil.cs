@@ -49,6 +49,16 @@ namespace School_Management
         public int PersonId { get; set; }
         public DateTime DateJoined { get; set; }
 
+        public override string ShowDetails()
+        {
+            string name = $"{"Name",-15}: {this.Name,30}";
+            string age = $"{"Age",-15}: {this.Age,30}";
+            string contactNo = $"{"Contact Number",-15}: {this.ContactNo,30}";
+            string emailAddress = $"{"Email Address",-15}: {this.EmailAddress,30}";
+            List<string> messages = new List<string> { name, age, contactNo, emailAddress };
+            return string.Join("\n", messages);
+        }
+
         public void AddSelf()
         {
             DataAccess db = new DataAccess();

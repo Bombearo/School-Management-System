@@ -308,10 +308,10 @@ namespace School_Management
 
         }
 
-
+        //ViewPupil route
         private static void ShowPerson(ISchoolMember person)
         {
-            Console.WriteLine(person.Name);
+            Console.WriteLine(person.ShowDetails());
         }
 
         private static void AddStuff()

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace School_Management
 {
-    class Person:IPerson
+    abstract class Person:IPerson
     {
 
         public Person(string forename,string surname,DateTime dateOfBirth,string contactNo = null,string emailAddress = null)
@@ -40,5 +40,6 @@ namespace School_Management
                 return (now - dob) / 10000;
             }
         }
+        public abstract string ShowDetails();
     }
 }

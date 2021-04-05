@@ -46,6 +46,19 @@ namespace School_Management
 
         }
 
+        public override string ShowDetails()
+        {
+            string name = $"{"Name",-15}: {this.Name,30}";
+            string age = $"{"Age",-15}: {this.Age,30}";
+            string salary = $"{"Salary",-15}: £{this.Salary,30}";
+            string expertise = $"{"Expertise",-15}: {this.Expertise,30}";
+            string contactNo = $"{"Contact Number",-15}: {this.ContactNo,30}";
+            string emailAddress = $"{"Email Address",-15}: {this.EmailAddress,30}";
+
+            List<string> messages = new List<string> { name, age, salary, expertise, contactNo, emailAddress };
+            return string.Join("\n",messages);
+        }
+
         public void AddSelf()
         {
             DataAccess db = new DataAccess();

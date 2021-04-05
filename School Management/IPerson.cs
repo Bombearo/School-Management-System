@@ -15,5 +15,6 @@ namespace School_Management
 
         string EmailAddress { get; }
 
+        string ShowDetails();
     }
 }
