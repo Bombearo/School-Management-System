@@ -312,6 +312,8 @@ namespace School_Management
         private static void ShowPerson(ISchoolMember person)
         {
             Console.WriteLine(person.ShowDetails());
+            Console.WriteLine("Would you like to update these details? (Y/N)");
+            string choice = Console.ReadLine();
         }
 
         private static void AddStuff()
@@ -333,7 +335,29 @@ namespace School_Management
 
         private static void AddPupil()
         {
+            string choice = "";
+            Pupil person;
+            var possibleAnswers = new string[] {"y","ye","yes" };
+            do {
+                Console.WriteLine();
+                Console.Write("Enter pupil Forename:");
+                string forename = Console.ReadLine();
+                Console.Write("Enter pupil surname:");
+                string surname = Console.ReadLine();
+                DateTime dob = GetDate();
+                string contactNo = GetContactNo(forename);
+                Console.Write("Enter email contact:");
+                string emailAddress = Console.ReadLine();
+                Console.WriteLine();
 
+                person = new Pupil(forename,surname,dob,contactNo,emailAddress);
+                Console.WriteLine(person.ShowDetails());
+
+                Console.WriteLine("Is this okay? (Y/N)");
+                choice = Console.ReadLine();
+            }
+            while (!Array.Exists(possibleAnswers,answer => answer == choice.ToLower()));
+            person.AddSelf();
         }
         private static void AddTeacher()
         {
@@ -346,6 +370,35 @@ namespace School_Management
         private static void AddClass()
         {
 
+        }
+
+        private static DateTime GetDate()
+        {
+            DateTime dateToReturn;
+            string date;
+            while (true)
+            {
+                Console.Write("Enter pupil date of birth (YY/MM/DD):");
+                date = Console.ReadLine();
+                if (DateTime.TryParse(date, out dateToReturn))
+                    return dateToReturn;
+                Console.WriteLine("Sorry, you have entered an invalid date format");
+                Console.WriteLine();
+            }
+        }
+
+        private static string GetContactNo(string name)
+        {
+            string contactNo;
+            while (true)
+            {
+                Console.Write($"Enter a contact number for {name}:");
+                contactNo = Console.ReadLine();
+                if (contactNo.Length == 11 && (contactNo.StartsWith("07")||contactNo.StartsWith("0131")))
+                    return contactNo;
+                Console.WriteLine("Sorry, you have entered an invalid contact number. Please enter a valid UK number e.g.(07111122233,01314441123)");
+                Console.WriteLine();
+            }
         }
 
         private static void RemoveStuff()
