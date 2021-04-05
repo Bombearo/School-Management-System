@@ -178,16 +178,35 @@ namespace School_Management
             DataAccess db = new DataAccess();
             ISchoolMember[] pupilList = new ISchoolMember[5];
             var students = db.GetStudents();
-            int j = 0;
-            for (int i = start; i< start + 5;i++) {
-                pupilList[j] = students[i];
-                j++;
+
+            if (students.Count < 5)
+            {
+                int i = 0;
+                foreach (ISchoolMember pupil in students)
+                {
+                    pupilList[i] = pupil;
+                    i++;
+                }
             }
+            else
+            {
+                int j = 0;
+                for (int i = start; i < start + 4; i++)
+                {
+                    pupilList[j] = students[i];
+                    j++;
+                }
+
+            }
+            
 
             int counter = 0;
             foreach(Pupil student in pupilList)
             {
-                Console.WriteLine($"{++counter}. Name:{student.Name} Age:{student.Age}"); 
+                if (student != null)
+                {
+                    Console.WriteLine($"{++counter}. Name:{student.Name} Age:{student.Age}");
+                }
             }
 
 
