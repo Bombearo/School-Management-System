@@ -23,40 +23,7 @@ namespace School_Management
 
         }
 
-        private static void ShowOptions(Action option1,Action option2)
-        {
-            int choice;
-            bool running = true;
-            do
-            {
-
-                string input = Console.ReadLine();
-                if (!int.TryParse(input, out choice) && input == ""){
-                    choice = -1;
-                }
-                switch (choice)
-                {
-                    case -1: 
-                        running = false;
-                        break;
-                    case 1:
-                        option1();
-                        break;
-                    case 2:
-                        option2();
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    default:
-                        Console.WriteLine("Your input was not valid, please enter a correct number or nothing to exit.");
-                        break;
-                }
-
-            } while (running);
-        }
-
+        //Show Options overloads
         private static void ShowOptions(Action option1, Action option2, Action back)
         {
             int choice;
@@ -187,8 +154,44 @@ namespace School_Management
             back();
         }
 
+        private static void ShowOptions(Action option1, Action option2, Action option3, Action option4)
+        {
+            int choice;
+            bool running = true;
+            do
+            {
 
+                string input = Console.ReadLine();
+                if (!int.TryParse(input, out choice) && input == "")
+                {
+                    choice = -1;
+                }
+                switch (choice)
+                {
+                    case -1:
+                        running = false;
+                        break;
+                    case 1:
+                        option1();
+                        break;
+                    case 2:
+                        option2();
+                        break;
+                    case 3:
+                        option3();
+                        break;
+                    case 4:
+                        option4();
+                        break;
+                    default:
+                        Console.WriteLine("Your input was not valid, please enter a correct number or nothing to exit.");
+                        break;
+                }
 
+            } while (running);
+        }
+
+        //Pages
         private static void HomePage()
         {
             string options = "Welcome! Please Enter one of the following options to proceed!";
@@ -203,8 +206,24 @@ namespace School_Management
             Console.WriteLine(option3);
             Console.WriteLine(option4);
             Console.WriteLine("Or enter nothing to quit");
-            ShowOptions(ViewPeople,ViewCourseClasses);
+            ShowOptions(ViewStuff,AddStuff,UpdateStuff,RemoveStuff);
         }
+
+
+
+        private static void ViewStuff()
+        {
+            string options = "Welcome! Please Enter one of the following options to proceed!";
+            string option1 = "1. View Pupil/Teacher/Course/Class details";
+            string option2 = "2. Add New Pupils/Teachers/Courses/Classes";
+
+            Console.WriteLine(options);
+            Console.WriteLine(option1);
+            Console.WriteLine(option2);
+            Console.WriteLine("Or enter nothing to quit");
+            ShowOptions(ViewPeople, ViewCourseClasses,HomePage);
+        }
+
         private static void ViewPeople()
         {
             string options = "Welcome! Please Enter one of the following options to proceed!";
@@ -294,5 +313,50 @@ namespace School_Management
         {
             Console.WriteLine(person.Name);
         }
+
+        private static void AddStuff()
+        {
+            string options = "Which kind of object do you want to add?";
+            string option1 = "1. Pupil";
+            string option2 = "2. Teacher";
+            string option3 = "3. Course";
+            string option4 = "4. Class";
+
+            Console.WriteLine(options);
+            Console.WriteLine(option1);
+            Console.WriteLine(option2);
+            Console.WriteLine(option3);
+            Console.WriteLine(option4);
+            Console.WriteLine("Or enter nothing to go back to the HomePage");
+            ShowOptions(AddPupil, AddTeacher,AddCourse,AddClass);
+        }
+
+        private static void AddPupil()
+        {
+
+        }
+        private static void AddTeacher()
+        {
+
+        }
+        private static void AddCourse()
+        {
+
+        }
+        private static void AddClass()
+        {
+
+        }
+
+        private static void RemoveStuff()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void UpdateStuff()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
