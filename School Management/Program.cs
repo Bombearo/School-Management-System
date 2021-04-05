@@ -154,7 +154,7 @@ namespace School_Management
             back();
         }
 
-        private static void ShowOptions(Action option1, Action option2, Action option3, Action option4)
+        private static void ShowOptions(Action option1, Action option2, Action option3, Action option4,Action back=null)
         {
             int choice;
             bool running = true;
@@ -189,6 +189,10 @@ namespace School_Management
                 }
 
             } while (running);
+            if (back != null)
+            {
+                back();
+            }
         }
 
         //Pages
@@ -206,10 +210,8 @@ namespace School_Management
             Console.WriteLine(option3);
             Console.WriteLine(option4);
             Console.WriteLine("Or enter nothing to quit");
-            ShowOptions(ViewStuff,AddStuff,UpdateStuff,RemoveStuff);
+            ShowOptions(ViewStuff, AddStuff, UpdateStuff, RemoveStuff);
         }
-
-
 
         private static void ViewStuff()
         {
@@ -330,34 +332,43 @@ namespace School_Management
             Console.WriteLine(option3);
             Console.WriteLine(option4);
             Console.WriteLine("Or enter nothing to go back to the HomePage");
-            ShowOptions(AddPupil, AddTeacher,AddCourse,AddClass);
+            ShowOptions(AddPupil, AddTeacher,AddCourse,AddClass,HomePage);
         }
 
         private static void AddPupil()
         {
-            string choice = "";
-            Pupil person;
-            var possibleAnswers = new string[] {"y","ye","yes" };
-            do {
-                Console.WriteLine();
-                Console.Write("Enter pupil Forename:");
-                string forename = Console.ReadLine();
-                Console.Write("Enter pupil surname:");
-                string surname = Console.ReadLine();
-                DateTime dob = GetDate();
-                string contactNo = GetContactNo(forename);
-                Console.Write("Enter email contact:");
-                string emailAddress = Console.ReadLine();
-                Console.WriteLine();
+            string addAnother = "";
+            var possibleAnswers = new string[] { "y", "ye", "yes" };
+            do
+            {
+                string choice = "";
+                Pupil person;
 
-                person = new Pupil(forename,surname,dob,contactNo,emailAddress);
-                Console.WriteLine(person.ShowDetails());
+                do
+                {
+                    Console.WriteLine();
+                    Console.Write("Enter pupil Forename:");
+                    string forename = Console.ReadLine();
+                    Console.Write("Enter pupil surname:");
+                    string surname = Console.ReadLine();
+                    DateTime dob = GetDate();
+                    string contactNo = GetContactNo(forename);
+                    Console.Write("Enter email contact:");
+                    string emailAddress = Console.ReadLine();
+                    Console.WriteLine();
 
-                Console.WriteLine("Is this okay? (Y/N)");
-                choice = Console.ReadLine();
-            }
-            while (!Array.Exists(possibleAnswers,answer => answer == choice.ToLower()));
-            person.AddSelf();
+                    person = new Pupil(forename, surname, dob, contactNo, emailAddress);
+                    Console.WriteLine(person.ShowDetails());
+
+                    Console.WriteLine("Is this okay? (Y/N)");
+                    choice = Console.ReadLine();
+                }
+                while (!Array.Exists(possibleAnswers, answer => answer == choice.ToLower()));
+                person.AddSelf();
+                Console.WriteLine("Add another pupil? (Y/N)");
+                addAnother = Console.ReadLine();
+            } while(Array.Exists(possibleAnswers, answer => answer == addAnother.ToLower()));
+            AddStuff();
         }
         private static void AddTeacher()
         {
