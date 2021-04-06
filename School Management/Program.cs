@@ -193,6 +193,7 @@ namespace School_Management
             {
                 back();
             }
+            System.Environment.Exit(0);
         }
 
         //Pages
@@ -211,13 +212,14 @@ namespace School_Management
             Console.WriteLine(option4);
             Console.WriteLine("Or enter nothing to quit");
             ShowOptions(ViewStuff, AddStuff, UpdateStuff, RemoveStuff);
+            return;
         }
 
         private static void ViewStuff()
         {
             string options = "Welcome! Please Enter one of the following options to proceed!";
-            string option1 = "1. View Pupil/Teacher/Course/Class details";
-            string option2 = "2. Add New Pupils/Teachers/Courses/Classes";
+            string option1 = "1. View Pupil/Teacher details";
+            string option2 = "2. View Course/Class details";
 
             Console.WriteLine(options);
             Console.WriteLine(option1);
@@ -237,7 +239,7 @@ namespace School_Management
             Console.WriteLine(option1);
             Console.WriteLine(option2);
             Console.WriteLine("Or enter nothing to go back");
-            ShowOptions(ViewPupils,ViewTeachers,HomePage);
+            ShowOptions(ViewPupils,ViewTeachers,ViewStuff);
         }
 
         private static void ViewCourseClasses()
@@ -251,7 +253,7 @@ namespace School_Management
             Console.WriteLine(option1);
             Console.WriteLine(option2);
             Console.WriteLine("Or enter nothing to go back");
-            ShowOptions(ViewCourses,ViewClasses,HomePage);
+            ShowOptions(ViewCourses,ViewClasses,ViewStuff);
         }
 
         //Get the details from DB and display. 
@@ -394,7 +396,7 @@ namespace School_Management
                 string choice = "";
                 Teacher person;
 
-                do
+                while(true)
                 {
                     Console.WriteLine();
                     Console.Write("Enter teacher Forename:");
@@ -416,8 +418,16 @@ namespace School_Management
 
                     Console.WriteLine("Is this okay? (Y/N)");
                     choice = Console.ReadLine();
+                    if(!Array.Exists(possibleAnswers, answer => answer == choice.ToLower()))
+                    {
+                        break;
+                    }
+                    if (CheckCancel(possibleAnswers))
+                    {
+                        AddStuff();
+                        return;
+                    }
                 }
-                while (!Array.Exists(possibleAnswers, answer => answer == choice.ToLower()));
                 person.AddSelf();
                 Console.WriteLine("Add another teacher? (Y/N)");
                 addAnother = Console.ReadLine();
@@ -434,7 +444,7 @@ namespace School_Management
                 string choice = "";
                 Course course;
 
-                do
+                while(true)
                 {
                     Console.WriteLine();
                     Console.Write("Enter course subject:");
@@ -446,13 +456,30 @@ namespace School_Management
 
                     Console.WriteLine("Is this okay? (Y/N)");
                     choice = Console.ReadLine();
+                    if(!Array.Exists(possibleAnswers, answer => answer == choice.ToLower()))
+                    {
+                        break;
+                    }
+                    if (CheckCancel(possibleAnswers))
+                    {
+                        AddStuff();
+                        return;
+                    }
+
                 }
-                while (!Array.Exists(possibleAnswers, answer => answer == choice.ToLower()));
+                
                 course.AddSelf();
                 Console.WriteLine("Add another course? (Y/N)");
                 addAnother = Console.ReadLine();
             } while (Array.Exists(possibleAnswers, answer => answer == addAnother.ToLower()));
             AddStuff();
+        }
+
+        private static bool CheckCancel(string[] possibleAnswers)
+        {
+            Console.WriteLine("Would you like to cancel?");
+            string input = Console.ReadLine();
+            return (!Array.Exists(possibleAnswers, answer => answer == input.ToLower()));
         }
 
         private static int GetScqf()
@@ -462,7 +489,7 @@ namespace School_Management
             {
                 Console.Write("Enter SCQF Level(1-8): ");
                 string input = Console.ReadLine();
-                if (Int32.TryParse(input, out scqf))
+                if (Int32.TryParse(input, out scqf)&&scqf < 9 && scqf > 0)
                     return scqf;
                 Console.WriteLine("Sorry, you have entered an invalid SCQF level. Please enter a number between 1 and 8");
                 Console.WriteLine();
