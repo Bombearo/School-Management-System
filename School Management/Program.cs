@@ -372,6 +372,57 @@ namespace School_Management
         }
         private static void AddTeacher()
         {
+            static int GetSalary()
+            {
+                int salary;
+                while (true)
+                {
+                    Console.WriteLine("Enter teacher salary: ");
+                    string input = Console.ReadLine();
+                    if (Int32.TryParse(input,out salary) && salary > 0)
+                    {
+                        return salary;
+                    }
+                    Console.WriteLine("You must enter a valid number, or a number greater than 0");
+                }
+            }
+
+            string addAnother = "";
+            var possibleAnswers = new string[] { "y", "ye", "yes" };
+            do
+            {
+                string choice = "";
+                Teacher person;
+
+                do
+                {
+                    Console.WriteLine();
+                    Console.Write("Enter teacher Forename:");
+                    string forename = Console.ReadLine();
+                    Console.Write("Enter teacher surname:");
+                    string surname = Console.ReadLine();
+                    DateTime dob = GetDate();
+
+                    string expertise = Console.ReadLine();
+                    int salary = GetSalary();
+
+                    string contactNo = GetContactNo(forename);
+                    Console.Write("Enter email contact:");
+                    string emailAddress = Console.ReadLine();
+                    Console.WriteLine();
+
+                    person = new Teacher(forename, surname, dob,expertise,salary, contactNo, emailAddress);
+                    Console.WriteLine(person.ShowDetails());
+
+                    Console.WriteLine("Is this okay? (Y/N)");
+                    choice = Console.ReadLine();
+                }
+                while (!Array.Exists(possibleAnswers, answer => answer == choice.ToLower()));
+                person.AddSelf();
+                Console.WriteLine("Add another teacher? (Y/N)");
+                addAnother = Console.ReadLine();
+            } while (Array.Exists(possibleAnswers, answer => answer == addAnother.ToLower()));
+            AddStuff();
 
         }
         private static void AddCourse()
