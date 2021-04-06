@@ -427,8 +427,104 @@ namespace School_Management
         }
         private static void AddCourse()
         {
+            string addAnother = "";
+            var possibleAnswers = new string[] { "y", "ye", "yes" };
+            do
+            {
+                string choice = "";
+                Course course;
 
+                do
+                {
+                    Console.WriteLine();
+                    Console.Write("Enter course subject:");
+                    string subject = Console.ReadLine();
+                    int scqf = GetScqf();
+                    string level = GetLevel(scqf);
+                    course = new Course(subject,level,scqf);
+                    Console.WriteLine(course.ShowDetails());
+
+                    Console.WriteLine("Is this okay? (Y/N)");
+                    choice = Console.ReadLine();
+                }
+                while (!Array.Exists(possibleAnswers, answer => answer == choice.ToLower()));
+                course.AddSelf();
+                Console.WriteLine("Add another course? (Y/N)");
+                addAnother = Console.ReadLine();
+            } while (Array.Exists(possibleAnswers, answer => answer == addAnother.ToLower()));
+            AddStuff();
         }
+
+        private static int GetScqf()
+        {
+            int scqf;
+            while (true)
+            {
+                Console.Write("Enter SCQF Level(1-8): ");
+                string input = Console.ReadLine();
+                if (Int32.TryParse(input, out scqf))
+                    return scqf;
+                Console.WriteLine("Sorry, you have entered an invalid SCQF level. Please enter a number between 1 and 8");
+                Console.WriteLine();
+            }
+        }
+
+        private static string GetLevel(int scqf)
+        {
+            string[] choices;
+            switch (scqf)
+            {
+                case 1:
+                    return "National 1";
+                case 2:
+                    choices = new string [] { "National 2", "NPA", "National Certificate" };
+                    return ChooseLevel(choices);
+                case 3:
+                    choices = new string[] { "National 3", "NPA", "National Certificate", "Skills for Work" };
+                    return ChooseLevel(choices);
+                case 4:
+                    choices = new string[] { "National 4", "NPA", "National Certificate", "Skills for Work" };
+                    return ChooseLevel(choices); 
+                case 5:
+                    choices = new string[] { "National 5", "NPA", "National Certificate", "Skills for Work" };
+                    return ChooseLevel(choices);
+                case 6:
+                    choices = new string[] { "Higher", "NPA", "National Certificate", "Skills for Work", "PDA" };
+                    return ChooseLevel(choices);
+                case 7:
+                    choices = new string[] { "Advanced Higher", "Advanced Certificate", "Scottish Baccalaureate", "PDA", "HNC" };
+                    return ChooseLevel(choices);
+                default:
+                    choices = new string[] {"HND","Advanced Diploma", "PDA"};
+                    return ChooseLevel(choices);
+            }
+        }
+
+        private static string ChooseLevel(string[] choices)
+        {
+            string options = "Please choose an appropriate level";
+            int choice;
+            int limit = choices.Length;
+            while (true)
+            {
+                Console.WriteLine(options);
+                for (int i=0; i < limit; i++)
+                {
+                    Console.WriteLine($"{i+1}. {choices[i]}");
+                }
+
+                string input = Console.ReadLine();
+                if (Int32.TryParse(input, out choice) && 1 <= choice && choice <= limit)
+                {
+                    return choices[choice - 1];
+                }
+
+                Console.WriteLine($"Invalid Choice. Please enter a number between 1 and {limit}");
+                Console.WriteLine();
+
+            }
+        }
+
         private static void AddClass()
         {
 

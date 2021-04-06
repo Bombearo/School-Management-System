@@ -37,5 +37,14 @@ namespace School_Management
             this.CourseID = db.AddCourse(this.Scqf,this.Level,this.Subject);
            
         }
+
+        public string ShowDetails()
+        {
+            string subject = $"{"Subject",-15}: {this.Subject,30}";
+            string level = $"{"Level",-15}: {this.Level,30}";
+            string scqf = $"{"SCQF",-15}: {this.Scqf,30}";
+            List<string> messages = new List<string> {subject,level,scqf};
+            return string.Join("\n", messages);
+        }
     }
 }
