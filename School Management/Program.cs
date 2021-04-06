@@ -93,30 +93,42 @@ namespace School_Management
             int choice;
             bool running = true;
 
-            if (start != 0)
+            void ShowBack()
             {
-                //Back button logic
+                if (start != 0)
+                {
+                    //Back button logic
+                    ViewPupils(start - 5);
 
+                }
+                ShowPupil();
 
             }
 
-            if (end){
-                //Next button logic
+
+            void ShowNext()
+            {
+                if (!end)
+                {
+                    //Next button logic
+                    ViewPupils(start + 5);
+                }
+                ShowPupil();
             }
 
             //Checks if the position is not null
-            static bool ShowPupil(ISchoolMember person = null)
+            static void ShowPupil(ISchoolMember person = null)
             {
                 if (person!= null)
                 {
                     //Go to pupil page function
                     ShowPerson(person);
 
-                    return true;
+                    return;
                 }
                 Console.WriteLine("Your input was not valid, please enter a correct number or nothing to exit.");
 
-                return false;
+                return;
             }
 
 
@@ -135,6 +147,7 @@ namespace School_Management
                         running = false;
                         break;
                     case 0:
+                        ShowBack();
                         break;
                     case 1:
                     case 2:
@@ -143,8 +156,9 @@ namespace School_Management
                         ISchoolMember person = students[choice - 1];
                         ShowPupil(person);
                         break;
-
-
+                    case 5:
+                        ShowNext();
+                        break;
                     default:
                         ShowPupil();
                         break;
@@ -262,8 +276,8 @@ namespace School_Management
             DataAccess db = new DataAccess();
             ISchoolMember[] pupilList = new ISchoolMember[5];
             var students = db.GetStudents();
-
-            if (students.Count < 5)
+            int length = students.Count;
+            if ( length< 5)
             {
                 int i = 0;
                 foreach (ISchoolMember pupil in students)
@@ -282,25 +296,54 @@ namespace School_Management
                 }
 
             }
-            
 
-            int counter = 0;
-            foreach(Pupil student in pupilList)
-            {
-                if (student != null)
-                {
-                    Console.WriteLine($"{++counter}. Name:{student.Name} Age:{student.Age}");
-                }
-            }
+            DisplayPeopleOptions(pupilList);
 
 
-            ShowOptions(pupilList,ViewPeople);
+            ShowOptions(pupilList,ViewPeople,start,start+5 >= length);
         }
 
 
         private static void ViewTeachers(int start = 0)
         {
+            DataAccess db = new DataAccess();
+            var students = db.GetStudents();
+            ISchoolMember[] teacherList = new ISchoolMember[5];
+            int length = students.Count;
+            if (length < 5)
+            {
+                int i = 0;
+                foreach (ISchoolMember pupil in students)
+                {
+                    teacherList[i] = pupil;
+                    i++;
+                }
+            }
+            else
+            {
+                int j = 0;
+                for (int i = start; i < start + 4; i++)
+                {
+                    teacherList[j] = students[i];
+                    j++;
+                }
 
+            }
+            DisplayPeopleOptions(teacherList);
+
+            ShowOptions(teacherList, ViewPeople, start, start + 5 >= length);
+        }
+
+        private static void DisplayPeopleOptions(ISchoolMember[] peopleList)
+        {
+            int counter = 0;
+            foreach (ISchoolMember person in peopleList)
+            {
+                if (person != null)
+                {
+                    Console.WriteLine($"{++counter}. Name:{person.Name} Age:{person.Age}");
+                }
+            }
         }
 
         private static void ViewCourses(int start = 0)
