@@ -83,7 +83,21 @@ namespace School_Management
 
         public override string ShowDetails()
         {
-            return base.ShowDetails();
+            string dayOfWeek = $"{"Taught on",-15}:{DayOfWeek}s";
+            string time = $"{"Taught at",-15}:{ClassTime.ToString()}";
+            string teacher = $"{"Taught by",-15}:{ClassTeacher.Name}";
+
+            var msgs = new string[] { "CLASS", dayOfWeek, time, teacher };
+
+            string classDetail = string.Join("\n", msgs);
+
+            var baseDetail = new string[] { "COURSE",base.ShowDetails() };
+
+            string courseDetail = string.Join("\n", baseDetail);
+
+            var Details = new string[] { classDetail,courseDetail};
+
+            return string.Join("\n\n",Details);
         }
 
     }
