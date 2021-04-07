@@ -83,21 +83,25 @@ namespace School_Management
 
         public override string ShowDetails()
         {
-            string dayOfWeek = $"{"Taught on",-15}:{DayOfWeek}s";
-            string time = $"{"Taught at",-15}:{ClassTime.ToString()}";
-            string teacher = $"{"Taught by",-15}:{ClassTeacher.Name}";
+            string dayOfWeek = $"{"Taught on",-15}:{DayOfWeek+'s',30}";
+            string time = $"{"Taught at",-15}:{ClassTime,30}";
+            string teacher = $"{"Taught by",-15}:{ClassTeacher.Name,30}";
 
-            var msgs = new string[] { "CLASS", dayOfWeek, time, teacher };
 
-            string classDetail = string.Join("\n", msgs);
 
-            var baseDetail = new string[] { "COURSE",base.ShowDetails() };
+            var baseDetail = new string[] { $"{"COURSE",-45}", base.ShowDetails() };
+            var msgs = new string[] { $"{"CLASS",-45}", dayOfWeek, time, teacher };
 
             string courseDetail = string.Join("\n", baseDetail);
+            var msgs2 = courseDetail.Split(new string[] {"\n"},StringSplitOptions.None);
 
-            var Details = new string[] { classDetail,courseDetail};
+            var details = new List<string>();
+            for (int i = 0; i < msgs.Length; i++)
+            {
+                details.Add($"{msgs[i]}|{msgs2[i]}");
+            }
 
-            return string.Join("\n\n",Details);
+            return string.Join("\n",details);
         }
 
     }

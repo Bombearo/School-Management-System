@@ -344,6 +344,10 @@ namespace School_Management
         {
             DataAccess db = new DataAccess();
             var classes = db.GetClasses();
+            foreach(Course_Class class_item in classes){
+                Console.WriteLine(class_item.ShowDetails());
+                Console.WriteLine();
+            }
         }
 
         //ViewPupil route
