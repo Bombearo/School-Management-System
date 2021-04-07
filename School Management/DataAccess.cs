@@ -145,12 +145,17 @@ namespace School_Management
             }
         }
 
-        public List<Pupil> GetStudents() {
+        public List<ISchoolMember> GetStudents() {
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB"))) {
                 var pupilList = connection.Query<Pupil>("dbo.Get_Students_By_Age").ToList();
+                List<ISchoolMember> schoolMembers = new List<ISchoolMember>();
                 connection.Close();
-                return pupilList;
+                foreach (ISchoolMember pupil in pupilList)
+                {
+                    schoolMembers.Add(pupil);
+                }
+                return schoolMembers;
             }
         }
         public List<Course_Class> GetClasses()
@@ -161,6 +166,21 @@ namespace School_Management
                 var classList = connection.Query<Course_Class>("dbo.Get_Class_By_Subject_Name").ToList();
                 connection.Close();
                 return classList;
+            }
+        }
+
+        public List<ISchoolMember> GetTeachers()
+        {
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                var teacherList = connection.Query<Teacher>("dbo.Get_Teacher_By_Surname").ToList();
+                List<ISchoolMember> schoolMembers = new List<ISchoolMember>();
+                connection.Close();
+                foreach (ISchoolMember teacher in teacherList)
+                {
+                    schoolMembers.Add(teacher);
+                }
+                return schoolMembers;
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace School_Management
 {
-    class Teacher:Person
+    class Teacher:Person,ISchoolMember
     {
         public Teacher(string forename,
             string surname,
@@ -22,6 +22,31 @@ namespace School_Management
             this.DateJoined = DateTime.Today;
         }
 
+
+        //Database Constructor
+        public Teacher(
+        int teacherId,
+        int salary,
+        bool bonusAdded,
+        string expertise,
+        DateTime dateJoined,
+        int personId,
+        string forename,
+        string surname,
+        DateTime dateOfBirth,
+        string emailAddress,
+        string contactNo
+
+        ) : base(forename, surname, dateOfBirth, contactNo, emailAddress)
+        {
+            this.Salary = salary;
+            this.Expertise = expertise;
+            this.BonusAdded = bonusAdded;
+            this.DateJoined = dateJoined;
+            this.TeacherId = teacherId;
+            this.PersonId = personId;
+        }
+        public int PersonId { get; set; }
         public int TeacherId { get; set; }
         public int Salary { get; set; }
         public string Expertise { get; set; }
@@ -32,7 +57,7 @@ namespace School_Management
 
 
         // Adds a bonus to the Teacher's salary. The salary cannot receive another bonus until the Bonus is reset
-        void AddBonus(int amount)
+        public void AddBonus(int amount)
         {
             if (this.BonusAdded == false)
             {

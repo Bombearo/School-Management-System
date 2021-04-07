@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace School_Management
 {
@@ -8,7 +9,7 @@ namespace School_Management
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            DataAccess db = new DataAccess();
+            /*DataAccess db = new DataAccess();
             var pupils = db.GetClasses();
             TimeSpan t = new TimeSpan(9, 30, 0);
             var c = new Course_Class("Computing Science", "Advanced Higher", 7, 3, t, "Wednesday");
@@ -19,6 +20,7 @@ namespace School_Management
 
             }
             c.AddSelf();
+            */
             HomePage();
 
         }
@@ -276,59 +278,46 @@ namespace School_Management
             DataAccess db = new DataAccess();
             ISchoolMember[] pupilList = new ISchoolMember[5];
             var students = db.GetStudents();
-            int length = students.Count;
-            if ( length< 5)
-            {
-                int i = 0;
-                foreach (ISchoolMember pupil in students)
-                {
-                    pupilList[i] = pupil;
-                    i++;
-                }
-            }
-            else
-            {
-                int j = 0;
-                for (int i = start; i < start + 4; i++)
-                {
-                    pupilList[j] = students[i];
-                    j++;
-                }
 
-            }
+            int length = students.Count;
+            var pupilArray = GetPeople(start, students,length);
 
             DisplayPeopleOptions(pupilList);
 
 
-            ShowOptions(pupilList,ViewPeople,start,start+5 >= length);
+            ShowOptions(pupilList, ViewPeople, start, start + 5 >= length);
         }
 
+        private static ISchoolMember[] GetPeople(int start,List<ISchoolMember> students,int length)
+        {
+            var studentArray = new ISchoolMember[5];
+            List<ISchoolMember> student;
+            if (length < 5)
+            {
+                student = students.GetRange(0, length);
+            }
+            else
+            {
+                int end = Math.Min(length,start+5);
+                student = students.GetRange(start, end);
+            }
+
+            //Allows for null values in array
+            for (int i = 0; i < student.Count; i++)
+            {
+                studentArray[i] = student[i];
+            }
+
+            return studentArray;
+        }
 
         private static void ViewTeachers(int start = 0)
         {
             DataAccess db = new DataAccess();
-            var students = db.GetStudents();
-            ISchoolMember[] teacherList = new ISchoolMember[5];
-            int length = students.Count;
-            if (length < 5)
-            {
-                int i = 0;
-                foreach (ISchoolMember pupil in students)
-                {
-                    teacherList[i] = pupil;
-                    i++;
-                }
-            }
-            else
-            {
-                int j = 0;
-                for (int i = start; i < start + 4; i++)
-                {
-                    teacherList[j] = students[i];
-                    j++;
-                }
-
-            }
+            var teachers = db.GetTeachers();
+            
+            int length = teachers.Count;
+            var teacherList = GetPeople(start,teachers,length);
             DisplayPeopleOptions(teacherList);
 
             ShowOptions(teacherList, ViewPeople, start, start + 5 >= length);
