@@ -81,6 +81,7 @@
     <Build Include="dbo\Stored Procedures\Class_Insert.sql" />
     <Build Include="dbo\Views\FullTeacher.sql" />
     <Build Include="dbo\Stored Procedures\Get_Teacher_By_Surname.sql" />
+    <Build Include="dbo\Stored Procedures\FindTeacher.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="SQL School Management.refactorlog" />

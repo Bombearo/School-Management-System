@@ -62,8 +62,15 @@ namespace School_Management
         public int ClassId { get; set; }
         public int TeacherId { get; set; }
 
-        public string DayOfWeek { get; set; } 
-        public Teacher Teacher { get; set; }
+        public string DayOfWeek { get; set; }
+        public Teacher ClassTeacher
+        {
+            get
+            {
+                DataAccess db = new DataAccess();
+                return db.FindTeacher(this.TeacherId);
+            } 
+        }
 
 
         public override void AddSelf()
@@ -72,6 +79,11 @@ namespace School_Management
             DataAccess db = new DataAccess();
             this.ClassId = db.AddClass(this.DayOfWeek,this.TeacherId,this.ClassTime, this.CourseID);
 
+        }
+
+        public override string ShowDetails()
+        {
+            return base.ShowDetails();
         }
 
     }

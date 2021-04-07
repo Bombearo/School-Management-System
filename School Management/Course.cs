@@ -8,7 +8,6 @@ namespace School_Management
 {
     class Course
     {
-        private int courseId;
 
         public Course(string subject, string level, int scqf)
         {
@@ -38,7 +37,7 @@ namespace School_Management
            
         }
 
-        public string ShowDetails()
+        public virtual string ShowDetails()
         {
             string subject = $"{"Subject",-15}: {this.Subject,30}";
             string level = $"{"Level",-15}: {this.Level,30}";

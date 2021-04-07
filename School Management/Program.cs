@@ -287,6 +287,17 @@ namespace School_Management
 
             ShowOptions(pupilList, ViewPeople, start, start + 5 >= length);
         }
+        private static void ViewTeachers(int start = 0)
+        {
+            DataAccess db = new DataAccess();
+            var teachers = db.GetTeachers();
+
+            int length = teachers.Count;
+            var teacherList = GetPeople(start, teachers, length);
+            DisplayPeopleOptions(teacherList);
+
+            ShowOptions(teacherList, ViewPeople, start, start + 5 >= length);
+        }
 
         private static ISchoolMember[] GetPeople(int start,List<ISchoolMember> students,int length)
         {
@@ -311,17 +322,7 @@ namespace School_Management
             return studentArray;
         }
 
-        private static void ViewTeachers(int start = 0)
-        {
-            DataAccess db = new DataAccess();
-            var teachers = db.GetTeachers();
-            
-            int length = teachers.Count;
-            var teacherList = GetPeople(start,teachers,length);
-            DisplayPeopleOptions(teacherList);
-
-            ShowOptions(teacherList, ViewPeople, start, start + 5 >= length);
-        }
+ 
 
         private static void DisplayPeopleOptions(ISchoolMember[] peopleList)
         {
@@ -341,7 +342,8 @@ namespace School_Management
         }
         private static void ViewClasses(int start = 0)
         {
-
+            DataAccess db = new DataAccess();
+            var classes = db.GetClasses();
         }
 
         //ViewPupil route

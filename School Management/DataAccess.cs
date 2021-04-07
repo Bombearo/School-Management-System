@@ -81,6 +81,21 @@ namespace School_Management
             }
         }
 
+        internal Teacher FindTeacher(int teacherId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@TeacherID",teacherId);
+
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                Teacher teacher = connection.QuerySingle<Teacher>("dbo.FindTeacher",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+                connection.Close();
+                return teacher;
+            }
+        }
+
         internal int AddCourse(int scqf, string level, string subject)
         {
             var parameters = new DynamicParameters();

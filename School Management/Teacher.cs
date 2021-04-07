@@ -8,6 +8,7 @@ namespace School_Management
 {
     class Teacher:Person,ISchoolMember
     {
+
         public Teacher(string forename,
             string surname,
             DateTime dateOfBirth,
