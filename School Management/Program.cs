@@ -356,7 +356,26 @@ namespace School_Management
             Console.WriteLine(person.ShowDetails());
             Console.WriteLine("Would you like to update these details? (Y/N)");
             string choice = Console.ReadLine();
+            choice = choice.ToLower();
+            switch (choice)
+            {
+                case "y":
+                case "ye":
+                case "yes":
+                    var updatee = (Teacher)person;
+                    if (updatee == null)
+                    {
+                        UpdatePupil(person.PersonId);
+                        break;
+                    }
+                    UpdateTeacher(person.PersonId);
+                    break;
+                default:
+                    break;
+            }
+            AddStuff();
         }
+
 
         private static void AddStuff()
         {
@@ -630,6 +649,17 @@ namespace School_Management
         }
 
         private static void UpdateStuff()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        private static void UpdatePupil(int personId)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void UpdateTeacher(int personId)
         {
             throw new NotImplementedException();
         }

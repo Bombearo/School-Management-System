@@ -11,5 +11,7 @@ namespace School_Management
         void AddSelf();
 
         DateTime DateJoined { get; set; }
+
+        int PersonId { get; set; }
     }
 }
