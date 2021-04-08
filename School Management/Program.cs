@@ -90,7 +90,7 @@ namespace School_Management
             back();
         }
 
-        private static void ShowOptions(ISchoolMember[] students, Action back, int start = 0, bool end = false)
+        private static void ShowOptions(ISchoolMember[] students,Action<ISchoolMember> func, Action back, int start = 0, bool end = false,bool teacher = false)
         {
             int choice;
             bool running = true;
@@ -99,11 +99,17 @@ namespace School_Management
             {
                 if (start != 0)
                 {
+                    if (teacher)
+                    {
+                        ViewTeachers(start + 5);
+                        return;
+                    }
+
                     //Back button logic
                     ViewPupils(start - 5);
-
+                    return;
                 }
-                ShowPupil();
+                ShowSchoolMember();
 
             }
 
@@ -113,18 +119,25 @@ namespace School_Management
                 if (!end)
                 {
                     //Next button logic
+                    if (teacher)
+                    {
+                        ViewTeachers(start + 5);
+                        return;
+                    }
                     ViewPupils(start + 5);
+                    return;
                 }
-                ShowPupil();
+                ShowSchoolMember();
             }
 
+
             //Checks if the position is not null
-            static void ShowPupil(ISchoolMember person = null)
+            void ShowSchoolMember(ISchoolMember person = null)
             {
                 if (person!= null)
                 {
                     //Go to pupil page function
-                    ShowPerson(person);
+                    func(person);
 
                     return;
                 }
@@ -156,13 +169,13 @@ namespace School_Management
                     case 3:
                     case 4:
                         ISchoolMember person = students[choice - 1];
-                        ShowPupil(person);
+                        ShowSchoolMember(person);
                         break;
                     case 5:
                         ShowNext();
                         break;
                     default:
-                        ShowPupil();
+                        ShowSchoolMember();
                         break;
                 }
 
@@ -276,16 +289,15 @@ namespace School_Management
         private static void ViewPupils(int start =0)
         {
             DataAccess db = new DataAccess();
-            ISchoolMember[] pupilList = new ISchoolMember[5];
             var students = db.GetStudents();
 
             int length = students.Count;
             var pupilArray = GetPeople(start, students,length);
 
-            DisplayPeopleOptions(pupilList);
+            DisplayPeopleOptions(pupilArray);
 
 
-            ShowOptions(pupilList, ViewPeople, start, start + 5 >= length);
+            ShowOptions(pupilArray,ShowPerson, ViewPeople, start, start + 5 >= length);
         }
         private static void ViewTeachers(int start = 0)
         {
@@ -296,7 +308,7 @@ namespace School_Management
             var teacherList = GetPeople(start, teachers, length);
             DisplayPeopleOptions(teacherList);
 
-            ShowOptions(teacherList, ViewPeople, start, start + 5 >= length);
+            ShowOptions(teacherList, ShowPerson, ViewPeople, start, start + 5 >= length);
         }
 
         private static ISchoolMember[] GetPeople(int start,List<ISchoolMember> students,int length)
@@ -365,10 +377,17 @@ namespace School_Management
                     var updatee = (Teacher)person;
                     if (updatee == null)
                     {
+<<<<<<< HEAD
+                        UpdatePupil(person);
+                        break;
+                    }
+                    UpdateTeacher(person);
+=======
                         UpdatePupil(person.PersonId);
                         break;
                     }
                     UpdateTeacher(person.PersonId);
+>>>>>>> d138247332b5f2bdc90e5847471c453ee03b2cae
                     break;
                 default:
                     break;
@@ -645,10 +664,80 @@ namespace School_Management
 
         private static void RemoveStuff()
         {
-            throw new NotImplementedException();
+            string options = "Which kind of object do you want to Remove?";
+            string option1 = "1. Pupil";
+            string option2 = "2. Teacher";
+            string option3 = "3. Course";
+            string option4 = "4. Class";
+
+            Console.WriteLine(options);
+            Console.WriteLine(option1);
+            Console.WriteLine(option2);
+            Console.WriteLine(option3);
+            Console.WriteLine(option4);
+            Console.WriteLine("Or enter nothing to go back to the HomePage");
+            ShowOptions(AddPupil, AddTeacher, AddCourse, AddClass, HomePage);
         }
 
         private static void UpdateStuff()
+        {
+            string options = "Which kind of object do you want to Update?";
+            string option1 = "1. Pupil/Teacher";
+            string option2 = "2. Course/Class";
+
+            Console.WriteLine(options);
+            Console.WriteLine(option1);
+            Console.WriteLine(option2);
+            Console.WriteLine("Or enter nothing to go back to the HomePage");
+            ShowOptions(UpdatePeople, UpdateCourses, HomePage);
+        }
+
+        private static void UpdateCourses()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void UpdatePeople()
+        {
+            string option1 = "1. Update Pupils Details";
+            string option2 = "2. Update Teacher Details";
+
+
+            Console.WriteLine();
+            Console.WriteLine(option1);
+            Console.WriteLine(option2);
+            Console.WriteLine("Or enter nothing to go back");
+            ShowOptions(UpdatePupils, UpdateTeachers, ViewStuff);
+        }
+
+        private static void UpdatePupils(int start = 0)
+        {
+            DataAccess db = new DataAccess();
+            var students = db.GetStudents();
+
+            int length = students.Count;
+            var pupilArray = GetPeople(start, students, length);
+
+            DisplayPeopleOptions(pupilArray);
+
+
+            ShowOptions(pupilArray,UpdatePupil, UpdatePeople, start, start + 5 >= length);
+        }
+
+        private static void UpdateTeachers(int start = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        private static void UpdatePupil(ISchoolMember person)
+        {
+            //Pupil p = (Pupil)person;
+            //p.UpdateSelf();
+            //UpdatePeople();
+        }
+
+        private static void UpdateTeacher(ISchoolMember person)
         {
             throw new NotImplementedException();
         }
