@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Dapper;
+using Dapper.Contrib;
 using System.Data;
 
 namespace School_Management
@@ -130,7 +131,7 @@ namespace School_Management
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
-                connection.Execute("dbo.Pupil_Insert",
+                var _ = connection.QuerySingle<int>("dbo.Pupil_Insert",
                     parameters,
                     commandType: CommandType.StoredProcedure);
 
@@ -168,6 +169,8 @@ namespace School_Management
             string emailAddress)
         {
             var parameters = new DynamicParameters();
+            Console.WriteLine($"{personID} {forename} {surname} {dateOfBirth} {emailAddress} {contactInfo}");
+
             parameters.Add("@PersonID",personID);
             parameters.Add("@Forename", forename);
             parameters.Add("@Surname", surname);
@@ -193,8 +196,8 @@ namespace School_Management
         {
             UpdatePerson(personID,forename,surname,dateOfBirth,contactInfo,emailAddress);
             var parameters = new DynamicParameters();
-            parameters.Add("@PersonID", personID);
             parameters.Add("@DateJoined", dateJoined);
+            parameters.Add("@PersonID", personID);
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {

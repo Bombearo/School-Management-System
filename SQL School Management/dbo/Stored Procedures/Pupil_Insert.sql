@@ -7,6 +7,6 @@ AS
 BEGIN
 	INSERT INTO Pupil(DateJoined,PersonId)
 	VALUES (@DateJoined,@PersonId);
-
+	SELECT CAST(SCOPE_IDENTITY() AS INT);
 
 END

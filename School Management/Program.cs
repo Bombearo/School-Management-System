@@ -377,6 +377,7 @@ namespace School_Management
                 case "y":
                 case "ye":
                 case "yes":
+                    
                     var updatee = (Teacher)person;
                     if (updatee == null)
                     {
@@ -794,6 +795,7 @@ namespace School_Management
                 }
             }
 
+            Console.WriteLine(p.PersonId);
             p.UpdateSelf(forename,surname,dob,contactNo,emailAddress,dateJoined);
 
             UpdateStuff();

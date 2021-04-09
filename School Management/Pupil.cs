@@ -72,7 +72,7 @@ namespace School_Management
         {
             DataAccess db = new DataAccess();
 
-            db.UpdatePupil(this.PupilId,forename,surname,dob,contactNo,emailAddress,dateJoined);
+            db.UpdatePupil(this.PersonId,forename,surname,dob,contactNo,emailAddress,dateJoined);
         }
     }
 }
