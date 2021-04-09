@@ -52,10 +52,12 @@ namespace School_Management
         public override string ShowDetails()
         {
             string name = $"{"Name",-15}: {this.Name,30}";
+            string dob = $"{"Date Of Birth",-15}: {this.DateOfBirth,30}";
             string age = $"{"Age",-15}: {this.Age,30}";
             string contactNo = $"{"Contact Number",-15}: {this.ContactNo,30}";
             string emailAddress = $"{"Email Address",-15}: {this.EmailAddress,30}";
-            List<string> messages = new List<string> { name, age, contactNo, emailAddress };
+            string dateJoin = $"{"Date Of Joined",-15}: {this.DateJoined,30}";
+            List<string> messages = new List<string> { name,dob, age, contactNo, emailAddress,dateJoin };
             return string.Join("\n", messages);
         }
 
@@ -64,6 +66,13 @@ namespace School_Management
             DataAccess db = new DataAccess();
 
             db.AddStudent(this.Forename, this.Surname, this.DateOfBirth, this.DateJoined, this.ContactNo, this.EmailAddress);
+        }
+
+        public void UpdateSelf(string forename, string surname, DateTime dob, string contactNo, string emailAddress,DateTime dateJoined)
+        {
+            DataAccess db = new DataAccess();
+
+            db.UpdatePupil(this.PupilId,forename,surname,dob,contactNo,emailAddress,dateJoined);
         }
     }
 }

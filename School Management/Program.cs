@@ -101,12 +101,12 @@ namespace School_Management
                 {
                     if (teacher)
                     {
-                        ViewTeachers(start + 5);
+                        ViewTeachers(start - 4);
                         return;
                     }
 
                     //Back button logic
-                    ViewPupils(start - 5);
+                    ViewPupils(start - 4);
                     return;
                 }
                 ShowSchoolMember();
@@ -121,10 +121,10 @@ namespace School_Management
                     //Next button logic
                     if (teacher)
                     {
-                        ViewTeachers(start + 5);
+                        ViewTeachers(start + 4);
                         return;
                     }
-                    ViewPupils(start + 5);
+                    ViewPupils(start + 4);
                     return;
                 }
                 ShowSchoolMember();
@@ -297,7 +297,7 @@ namespace School_Management
             DisplayPeopleOptions(pupilArray);
 
 
-            ShowOptions(pupilArray,ShowPerson, ViewPeople, start, start + 5 >= length);
+            ShowOptions(pupilArray,ShowPerson, ViewPeople, start, start + 4 >= length);
         }
         private static void ViewTeachers(int start = 0)
         {
@@ -308,20 +308,23 @@ namespace School_Management
             var teacherList = GetPeople(start, teachers, length);
             DisplayPeopleOptions(teacherList);
 
-            ShowOptions(teacherList, ShowPerson, ViewPeople, start, start + 5 >= length);
+            ShowOptions(teacherList, ShowPerson, ViewPeople, start, start + 4 >= length);
         }
 
         private static ISchoolMember[] GetPeople(int start,List<ISchoolMember> students,int length)
         {
-            var studentArray = new ISchoolMember[5];
+            var studentArray = new ISchoolMember[4];
             List<ISchoolMember> student;
-            if (length < 5)
+            if (length < 4)
             {
                 student = students.GetRange(0, length);
             }
             else
             {
-                int end = Math.Min(length,start+5);
+                int end = Math.Min(length,start+4);
+
+                end = Math.Min(end, end-start);
+
                 student = students.GetRange(start, end);
             }
 
@@ -377,17 +380,13 @@ namespace School_Management
                     var updatee = (Teacher)person;
                     if (updatee == null)
                     {
-<<<<<<< HEAD
+
                         UpdatePupil(person);
                         break;
                     }
                     UpdateTeacher(person);
-=======
-                        UpdatePupil(person.PersonId);
-                        break;
-                    }
-                    UpdateTeacher(person.PersonId);
->>>>>>> d138247332b5f2bdc90e5847471c453ee03b2cae
+
+
                     break;
                 default:
                     break;
@@ -448,22 +447,23 @@ namespace School_Management
             } while(Array.Exists(possibleAnswers, answer => answer == addAnother.ToLower()));
             AddStuff();
         }
-        private static void AddTeacher()
+
+        private static int GetSalary()
         {
-            static int GetSalary()
+            int salary;
+            while (true)
             {
-                int salary;
-                while (true)
+                Console.WriteLine("Enter teacher salary: ");
+                string input = Console.ReadLine();
+                if (Int32.TryParse(input, out salary) && salary > 0)
                 {
-                    Console.WriteLine("Enter teacher salary: ");
-                    string input = Console.ReadLine();
-                    if (Int32.TryParse(input,out salary) && salary > 0)
-                    {
-                        return salary;
-                    }
-                    Console.WriteLine("You must enter a valid number, or a number greater than 0");
+                    return salary;
                 }
+                Console.WriteLine("You must enter a valid number, or a number greater than 0");
             }
+        }
+        private static void AddTeacher()
+        { 
 
             string addAnother = "";
             var possibleAnswers = new string[] { "y", "ye", "yes" };
@@ -633,22 +633,31 @@ namespace School_Management
 
         }
 
-        private static DateTime GetDate()
+        private static DateTime GetDate(ISchoolMember person = null,string type = "of birth")
         {
             DateTime dateToReturn;
             string date;
             while (true)
             {
-                Console.Write("Enter pupil date of birth (YY/MM/DD):");
+                Console.Write($"Enter pupil date {type} (YY/MM/DD):");
                 date = Console.ReadLine();
                 if (DateTime.TryParse(date, out dateToReturn))
                     return dateToReturn;
+                if (date.Length == 0 && person != null)
+                {
+                    if (type == "of birth")
+                    {
+                        return person.DateOfBirth;
+                    }
+
+                    return person.DateJoined;
+                }
                 Console.WriteLine("Sorry, you have entered an invalid date format");
                 Console.WriteLine();
             }
         }
 
-        private static string GetContactNo(string name)
+        private static string GetContactNo(string name,ISchoolMember person=null)
         {
             string contactNo;
             while (true)
@@ -657,7 +666,11 @@ namespace School_Management
                 contactNo = Console.ReadLine();
                 if (contactNo.Length == 11 && (contactNo.StartsWith("07")||contactNo.StartsWith("0131")))
                     return contactNo;
-                Console.WriteLine("Sorry, you have entered an invalid contact number. Please enter a valid UK number e.g.(07111122233,01314441123)");
+                if (contactNo.Length == 0 && person != null)
+                {
+                    return person.ContactNo;
+                }
+                Console.WriteLine("Sorry, you have entered an invalid contact number. Please enter a valid UK number with no formatting e.g.(07111122233,01314441123)");
                 Console.WriteLine();
             }
         }
@@ -721,7 +734,7 @@ namespace School_Management
             DisplayPeopleOptions(pupilArray);
 
 
-            ShowOptions(pupilArray,UpdatePupil, UpdatePeople, start, start + 5 >= length);
+            ShowOptions(pupilArray,UpdatePupil, UpdatePeople, start, start + 4 >= length);
         }
 
         private static void UpdateTeachers(int start = 0)
@@ -732,7 +745,58 @@ namespace School_Management
 
         private static void UpdatePupil(ISchoolMember person)
         {
-            //Pupil p = (Pupil)person;
+            Pupil p = (Pupil)person;
+            var possibleAnswers = new string[] { "y", "ye", "yes" };
+            string choice = "";
+            string forename;
+            string surname;
+            DateTime dob;
+            string contactNo;
+            string emailAddress;
+            DateTime dateJoined;
+
+            while(true)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Leave input blank if you do not wish to change the detail");
+                Console.Write("Enter pupil Forename:");
+                forename = Console.ReadLine();
+                if (forename.Length == 0)
+                {
+                    forename = p.Forename;
+                }
+                Console.Write("Enter pupil surname:");
+                surname = Console.ReadLine();
+                if (surname.Length == 0)
+                {
+                    surname = p.Surname;
+                }
+                dob = GetDate(person);
+                contactNo = GetContactNo(forename,person);
+                Console.Write("Enter email contact:");
+                emailAddress = Console.ReadLine();
+                if (emailAddress.Length == 0)
+                {
+                    emailAddress = p.EmailAddress;
+                }
+
+                dateJoined = GetDate(person,"joined");
+
+                Console.WriteLine();
+                Pupil temp = new Pupil(forename,surname,dob,contactNo,emailAddress,dateJoined);
+                Console.WriteLine(temp.ShowDetails());
+
+                Console.WriteLine("Is this okay? (Y/N)");
+                choice = Console.ReadLine();
+                if (Array.Exists(possibleAnswers, answer => answer == choice.ToLower()))
+                {
+                    break;
+                }
+            }
+
+            p.UpdateSelf(forename,surname,dob,contactNo,emailAddress,dateJoined);
+
+            UpdateStuff();
             //p.UpdateSelf();
             //UpdatePeople();
         }
@@ -743,15 +807,6 @@ namespace School_Management
         }
 
 
-        private static void UpdatePupil(int personId)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static void UpdateTeacher(int personId)
-        {
-            throw new NotImplementedException();
-        }
 
     }
 }

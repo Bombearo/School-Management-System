@@ -11,6 +11,8 @@ namespace School_Management
         string Name { get; }
         int Age { get; }
 
+        DateTime DateOfBirth { get; }
+
         string ContactNo { get; }
 
         string EmailAddress { get; }

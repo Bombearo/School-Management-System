@@ -46,7 +46,7 @@ namespace School_Management
             }
         }
 
-        internal int CheckCourse(int scqf, string level, string subject)
+        public int CheckCourse(int scqf, string level, string subject)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Scqf", scqf);
@@ -63,7 +63,7 @@ namespace School_Management
             }
         }
 
-        internal int AddClass(string dayOfWeek, int teacherId, TimeSpan classTime,int courseId)
+        public int AddClass(string dayOfWeek, int teacherId, TimeSpan classTime,int courseId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@DayOfWeek", dayOfWeek);
@@ -81,7 +81,7 @@ namespace School_Management
             }
         }
 
-        internal Teacher FindTeacher(int teacherId)
+        public Teacher FindTeacher(int teacherId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@TeacherID",teacherId);
@@ -96,7 +96,7 @@ namespace School_Management
             }
         }
 
-        internal int AddCourse(int scqf, string level, string subject)
+        public int AddCourse(int scqf, string level, string subject)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Scqf", scqf);
@@ -137,7 +137,7 @@ namespace School_Management
             }
         }
 
-        public int AddPerson(string forename,
+        private int AddPerson(string forename,
         string surname,
         DateTime dateOfBirth,
         string contactInfo,
@@ -158,6 +158,51 @@ namespace School_Management
                 connection.Close();
                 return PersonId;
             }
+        }
+
+        private void UpdatePerson(int personID,
+            string forename,
+            string surname,
+            DateTime dateOfBirth,
+            string contactInfo,
+            string emailAddress)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@PersonID",personID);
+            parameters.Add("@Forename", forename);
+            parameters.Add("@Surname", surname);
+            parameters.Add("@DateOfBirth", dateOfBirth);
+            parameters.Add("@ContactNo", contactInfo);
+            parameters.Add("@EmailAddress", emailAddress);
+
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                connection.Execute("dbo.People_Update",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public void UpdatePupil(int personID,
+        string forename,
+        string surname,
+        DateTime dateOfBirth,
+        string contactInfo,
+        string emailAddress,
+        DateTime dateJoined)
+        {
+            UpdatePerson(personID,forename,surname,dateOfBirth,contactInfo,emailAddress);
+            var parameters = new DynamicParameters();
+            parameters.Add("@PersonID", personID);
+            parameters.Add("@DateJoined", dateJoined);
+
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                connection.Execute("dbo.Pupil_Update",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+            }
+            
         }
 
         public List<ISchoolMember> GetStudents() {
