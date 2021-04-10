@@ -63,7 +63,7 @@ namespace School_Management
 
         public void AddSelf()
         {
-            DataAccess db = new DataAccess();
+            var db = new DataAccess();
 
             db.AddStudent(this.Forename, this.Surname, this.DateOfBirth, this.DateJoined, this.ContactNo, this.EmailAddress);
         }

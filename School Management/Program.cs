@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace School_Management
 {
     class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
             /*DataAccess db = new DataAccess();
@@ -28,13 +27,12 @@ namespace School_Management
         //Show Options overloads
         private static void ShowOptions(Action option1, Action option2, Action back)
         {
-            int choice;
-            bool running = true;
+            
+            var running = true;
             do
             {
-
-                string input = Console.ReadLine();
-                if (!int.TryParse(input, out choice) && input == "")
+                var input = Console.ReadLine();
+                if (!int.TryParse(input, out var choice) && input == "")
                 {
                     choice = -1;
                 }
@@ -60,13 +58,12 @@ namespace School_Management
 
         private static void ShowOptions(Action<int> option1, Action<int> option2, Action back,int start = 0)
         {
-            int choice;
-            bool running = true;
+            var running = true;
             do
             {
 
-                string input = Console.ReadLine();
-                if (!int.TryParse(input, out choice) && input == "")
+                var input = Console.ReadLine();
+                if (!int.TryParse(input, out var choice) && input == "")
                 {
                     choice = -1;
                 }
@@ -92,8 +89,7 @@ namespace School_Management
 
         private static void ShowOptions(ISchoolMember[] students,Action<ISchoolMember> func, Action back, int start = 0, bool end = false,bool teacher = false)
         {
-            int choice;
-            bool running = true;
+            var running = true;
 
             void ShowBack()
             {
@@ -142,8 +138,6 @@ namespace School_Management
                     return;
                 }
                 Console.WriteLine("Your input was not valid, please enter a correct number or nothing to exit.");
-
-                return;
             }
 
 
@@ -152,7 +146,7 @@ namespace School_Management
             {
 
                 string input = Console.ReadLine();
-                if (!int.TryParse(input, out choice) && input == "")
+                if (!int.TryParse(input, out var choice) && input == "")
                 {
                     choice = -1;
                 }
@@ -185,13 +179,12 @@ namespace School_Management
 
         private static void ShowOptions(Action option1, Action option2, Action option3, Action option4,Action back=null)
         {
-            int choice;
-            bool running = true;
+            var running = true;
             do
             {
 
-                string input = Console.ReadLine();
-                if (!int.TryParse(input, out choice) && input == "")
+                var input = Console.ReadLine();
+                if (!int.TryParse(input, out var choice) && input == "")
                 {
                     choice = -1;
                 }
@@ -218,21 +211,19 @@ namespace School_Management
                 }
 
             } while (running);
-            if (back != null)
-            {
-                back();
-            }
+
+            back?.Invoke();
             System.Environment.Exit(0);
         }
 
         //Pages
         private static void HomePage()
         {
-            string options = "Welcome! Please Enter one of the following options to proceed!";
-            string option1 = "1. View Pupil/Teacher/Course/Class details";
-            string option2 = "2. Add New Pupils/Teachers/Courses/Classes";
-            string option3 = "3. Update Existing Pupils/Teachers/Courses/Classes";
-            string option4 = "4. Remove Pupils/Teachers/Courses/Classes";
+            const string options = "Welcome! Please Enter one of the following options to proceed!";
+            const string option1 = "1. View Pupil/Teacher/Course/Class details";
+            const string option2 = "2. Add New Pupils/Teachers/Courses/Classes";
+            const string option3 = "3. Update Existing Pupils/Teachers/Courses/Classes";
+            const string option4 = "4. Remove Pupils/Teachers/Courses/Classes";
 
             Console.WriteLine(options);
             Console.WriteLine(option1);
@@ -246,9 +237,9 @@ namespace School_Management
 
         private static void ViewStuff()
         {
-            string options = "Welcome! Please Enter one of the following options to proceed!";
-            string option1 = "1. View Pupil/Teacher details";
-            string option2 = "2. View Course/Class details";
+            const string options = "Welcome! Please Enter one of the following options to proceed!";
+            const string option1 = "1. View Pupil/Teacher details";
+            const string option2 = "2. View Course/Class details";
 
             Console.WriteLine(options);
             Console.WriteLine(option1);
@@ -259,9 +250,9 @@ namespace School_Management
 
         private static void ViewPeople()
         {
-            string options = "Welcome! Please Enter one of the following options to proceed!";
-            string option1 = "1. View Pupils Details";
-            string option2 = "2. View Teacher Details";
+            const string options = "Welcome! Please Enter one of the following options to proceed!";
+            const string option1 = "1. View Pupils Details";
+            const string option2 = "2. View Teacher Details";
 
 
             Console.WriteLine(options);
@@ -273,9 +264,9 @@ namespace School_Management
 
         private static void ViewCourseClasses()
         {
-            string options = "Welcome! Please Enter one of the following options to proceed!";
-            string option1 = "1. View Course Details";
-            string option2 = "2. View Class Details";
+            const string options = "Welcome! Please Enter one of the following options to proceed!";
+            const string option1 = "1. View Course Details";
+            const string option2 = "2. View Class Details";
 
 
             Console.WriteLine(options);
@@ -288,10 +279,10 @@ namespace School_Management
         //Get the details from DB and display. 
         private static void ViewPupils(int start =0)
         {
-            DataAccess db = new DataAccess();
+            var db = new DataAccess();
             var students = db.GetStudents();
 
-            int length = students.Count;
+            var length = students.Count;
             var pupilArray = GetPeople(start, students,length);
 
             DisplayPeopleOptions(pupilArray);
@@ -301,10 +292,10 @@ namespace School_Management
         }
         private static void ViewTeachers(int start = 0)
         {
-            DataAccess db = new DataAccess();
+            var db = new DataAccess();
             var teachers = db.GetTeachers();
 
-            int length = teachers.Count;
+            var length = teachers.Count;
             var teacherList = GetPeople(start, teachers, length);
             DisplayPeopleOptions(teacherList);
 
@@ -321,7 +312,7 @@ namespace School_Management
             }
             else
             {
-                int end = Math.Min(length,start+4);
+                var end = Math.Min(length,start+4);
 
                 end = Math.Min(end, end-start);
 
@@ -359,8 +350,8 @@ namespace School_Management
         {
             DataAccess db = new DataAccess();
             var classes = db.GetClasses();
-            foreach(Course_Class class_item in classes){
-                Console.WriteLine(class_item.ShowDetails());
+            foreach(var classItem in classes){
+                Console.WriteLine(classItem.ShowDetails());
                 Console.WriteLine();
             }
         }
@@ -370,16 +361,15 @@ namespace School_Management
         {
             Console.WriteLine(person.ShowDetails());
             Console.WriteLine("Would you like to update these details? (Y/N)");
-            string choice = Console.ReadLine();
-            choice = choice.ToLower();
+            var choice = Console.ReadLine();
+            choice = choice?.ToLower();
             switch (choice)
             {
                 case "y":
                 case "ye":
                 case "yes":
-                    
-                    var updatee = (Teacher)person;
-                    if (updatee == null)
+
+                    if (person is not Teacher)
                     {
 
                         UpdatePupil(person);
@@ -398,11 +388,11 @@ namespace School_Management
 
         private static void AddStuff()
         {
-            string options = "Which kind of object do you want to add?";
-            string option1 = "1. Pupil";
-            string option2 = "2. Teacher";
-            string option3 = "3. Course";
-            string option4 = "4. Class";
+            const string options = "Which kind of object do you want to add?";
+            const string option1 = "1. Pupil";
+            const string option2 = "2. Teacher";
+            const string option3 = "3. Course";
+            const string option4 = "4. Class";
 
             Console.WriteLine(options);
             Console.WriteLine(option1);
@@ -415,24 +405,24 @@ namespace School_Management
 
         private static void AddPupil()
         {
-            string addAnother = "";
+            var addAnother = "";
             var possibleAnswers = new string[] { "y", "ye", "yes" };
             do
             {
-                string choice = "";
+                var choice = "";
                 Pupil person;
 
                 do
                 {
                     Console.WriteLine();
                     Console.Write("Enter pupil Forename:");
-                    string forename = Console.ReadLine();
+                    var forename = Console.ReadLine();
                     Console.Write("Enter pupil surname:");
-                    string surname = Console.ReadLine();
-                    DateTime dob = GetDate();
-                    string contactNo = GetContactNo(forename);
+                    var surname = Console.ReadLine();
+                    var dob = GetDate();
+                    var contactNo = GetContactNo(forename);
                     Console.Write("Enter email contact:");
-                    string emailAddress = Console.ReadLine();
+                    var emailAddress = Console.ReadLine();
                     Console.WriteLine();
 
                     person = new Pupil(forename, surname, dob, contactNo, emailAddress);
@@ -441,22 +431,21 @@ namespace School_Management
                     Console.WriteLine("Is this okay? (Y/N)");
                     choice = Console.ReadLine();
                 }
-                while (!Array.Exists(possibleAnswers, answer => answer == choice.ToLower()));
+                while (!Array.Exists(possibleAnswers, answer => choice != null && answer == choice.ToLower()));
                 person.AddSelf();
                 Console.WriteLine("Add another pupil? (Y/N)");
                 addAnother = Console.ReadLine();
-            } while(Array.Exists(possibleAnswers, answer => answer == addAnother.ToLower()));
+            } while(Array.Exists(possibleAnswers, answer => addAnother != null && answer == addAnother.ToLower()));
             AddStuff();
         }
 
         private static int GetSalary()
         {
-            int salary;
             while (true)
             {
                 Console.WriteLine("Enter teacher salary: ");
-                string input = Console.ReadLine();
-                if (Int32.TryParse(input, out salary) && salary > 0)
+                var input = Console.ReadLine();
+                if (int.TryParse(input, out var salary) && salary > 0)
                 {
                     return salary;
                 }
@@ -466,28 +455,28 @@ namespace School_Management
         private static void AddTeacher()
         { 
 
-            string addAnother = "";
-            var possibleAnswers = new string[] { "y", "ye", "yes" };
+            var addAnother = "";
+            var possibleAnswers = new[] { "y", "ye", "yes" };
             do
             {
-                string choice = "";
+                var choice = "";
                 Teacher person;
 
                 while(true)
                 {
                     Console.WriteLine();
                     Console.Write("Enter teacher Forename:");
-                    string forename = Console.ReadLine();
+                    var forename = Console.ReadLine();
                     Console.Write("Enter teacher surname:");
-                    string surname = Console.ReadLine();
-                    DateTime dob = GetDate();
+                    var surname = Console.ReadLine();
+                    var dob = GetDate();
 
-                    string expertise = Console.ReadLine();
-                    int salary = GetSalary();
+                    var expertise = Console.ReadLine();
+                    var salary = GetSalary();
 
-                    string contactNo = GetContactNo(forename);
+                    var contactNo = GetContactNo(forename);
                     Console.Write("Enter email contact:");
-                    string emailAddress = Console.ReadLine();
+                    var emailAddress = Console.ReadLine();
                     Console.WriteLine();
 
                     person = new Teacher(forename, surname, dob,expertise,salary, contactNo, emailAddress);
@@ -495,7 +484,7 @@ namespace School_Management
 
                     Console.WriteLine("Is this okay? (Y/N)");
                     choice = Console.ReadLine();
-                    if(!Array.Exists(possibleAnswers, answer => answer == choice.ToLower()))
+                    if(!Array.Exists(possibleAnswers, answer => choice != null && answer == choice.ToLower()))
                     {
                         break;
                     }
@@ -508,32 +497,32 @@ namespace School_Management
                 person.AddSelf();
                 Console.WriteLine("Add another teacher? (Y/N)");
                 addAnother = Console.ReadLine();
-            } while (Array.Exists(possibleAnswers, answer => answer == addAnother.ToLower()));
+            } while (Array.Exists(possibleAnswers, answer => addAnother != null && answer == addAnother.ToLower()));
             AddStuff();
 
         }
         private static void AddCourse()
         {
-            string addAnother = "";
-            var possibleAnswers = new string[] { "y", "ye", "yes" };
+            var addAnother = "";
+            var possibleAnswers = new[] { "y", "ye", "yes" };
             do
             {
-                string choice = "";
+                var choice = "";
                 Course course;
 
                 while(true)
                 {
                     Console.WriteLine();
                     Console.Write("Enter course subject:");
-                    string subject = Console.ReadLine();
-                    int scqf = GetScqf();
-                    string level = GetLevel(scqf);
+                    var subject = Console.ReadLine();
+                    var scqf = GetScqf();
+                    var level = GetLevel(scqf);
                     course = new Course(subject,level,scqf);
                     Console.WriteLine(course.ShowDetails());
 
                     Console.WriteLine("Is this okay? (Y/N)");
                     choice = Console.ReadLine();
-                    if(!Array.Exists(possibleAnswers, answer => answer == choice.ToLower()))
+                    if(!Array.Exists(possibleAnswers, answer => choice != null && answer == choice.ToLower()))
                     {
                         break;
                     }
@@ -548,7 +537,7 @@ namespace School_Management
                 course.AddSelf();
                 Console.WriteLine("Add another course? (Y/N)");
                 addAnother = Console.ReadLine();
-            } while (Array.Exists(possibleAnswers, answer => answer == addAnother.ToLower()));
+            } while (Array.Exists(possibleAnswers, answer => addAnother != null && answer == addAnother.ToLower()));
             AddStuff();
         }
 
@@ -556,17 +545,16 @@ namespace School_Management
         {
             Console.WriteLine("Would you like to cancel?");
             string input = Console.ReadLine();
-            return (!Array.Exists(possibleAnswers, answer => answer == input.ToLower()));
+            return (!Array.Exists(possibleAnswers, answer => input != null && answer == input.ToLower()));
         }
 
         private static int GetScqf()
         {
-            int scqf;
             while (true)
             {
                 Console.Write("Enter SCQF Level(1-8): ");
-                string input = Console.ReadLine();
-                if (Int32.TryParse(input, out scqf)&&scqf < 9 && scqf > 0)
+                var input = Console.ReadLine();
+                if (int.TryParse(input, out var scqf) && scqf is < 9 and > 0)
                     return scqf;
                 Console.WriteLine("Sorry, you have entered an invalid SCQF level. Please enter a number between 1 and 8");
                 Console.WriteLine();
@@ -581,44 +569,43 @@ namespace School_Management
                 case 1:
                     return "National 1";
                 case 2:
-                    choices = new string [] { "National 2", "NPA", "National Certificate" };
+                    choices = new[] { "National 2", "NPA", "National Certificate" };
                     return ChooseLevel(choices);
                 case 3:
-                    choices = new string[] { "National 3", "NPA", "National Certificate", "Skills for Work" };
+                    choices = new[] { "National 3", "NPA", "National Certificate", "Skills for Work" };
                     return ChooseLevel(choices);
                 case 4:
-                    choices = new string[] { "National 4", "NPA", "National Certificate", "Skills for Work" };
+                    choices = new[] { "National 4", "NPA", "National Certificate", "Skills for Work" };
                     return ChooseLevel(choices); 
                 case 5:
-                    choices = new string[] { "National 5", "NPA", "National Certificate", "Skills for Work" };
+                    choices = new[] { "National 5", "NPA", "National Certificate", "Skills for Work" };
                     return ChooseLevel(choices);
                 case 6:
-                    choices = new string[] { "Higher", "NPA", "National Certificate", "Skills for Work", "PDA" };
+                    choices = new[] { "Higher", "NPA", "National Certificate", "Skills for Work", "PDA" };
                     return ChooseLevel(choices);
                 case 7:
-                    choices = new string[] { "Advanced Higher", "Advanced Certificate", "Scottish Baccalaureate", "PDA", "HNC" };
+                    choices = new[] { "Advanced Higher", "Advanced Certificate", "Scottish Baccalaureate", "PDA", "HNC" };
                     return ChooseLevel(choices);
                 default:
-                    choices = new string[] {"HND","Advanced Diploma", "PDA"};
+                    choices = new[] {"HND","Advanced Diploma", "PDA"};
                     return ChooseLevel(choices);
             }
         }
 
-        private static string ChooseLevel(string[] choices)
+        private static string ChooseLevel(IReadOnlyList<string> choices)
         {
-            string options = "Please choose an appropriate level";
-            int choice;
-            int limit = choices.Length;
+            const string options = "Please choose an appropriate level";
+            var limit = choices.Count;
             while (true)
             {
                 Console.WriteLine(options);
-                for (int i=0; i < limit; i++)
+                for (var i=0; i < limit; i++)
                 {
                     Console.WriteLine($"{i+1}. {choices[i]}");
                 }
 
-                string input = Console.ReadLine();
-                if (Int32.TryParse(input, out choice) && 1 <= choice && choice <= limit)
+                var input = Console.ReadLine();
+                if (int.TryParse(input, out var choice) && 1 <= choice && choice <= limit)
                 {
                     return choices[choice - 1];
                 }
@@ -636,22 +623,15 @@ namespace School_Management
 
         private static DateTime GetDate(ISchoolMember person = null,string type = "of birth")
         {
-            DateTime dateToReturn;
-            string date;
             while (true)
             {
                 Console.Write($"Enter pupil date {type} (YY/MM/DD):");
-                date = Console.ReadLine();
-                if (DateTime.TryParse(date, out dateToReturn))
+                var date = Console.ReadLine();
+                if (DateTime.TryParse(date, out var dateToReturn))
                     return dateToReturn;
-                if (date.Length == 0 && person != null)
+                if (date is {Length: 0} && person != null)
                 {
-                    if (type == "of birth")
-                    {
-                        return person.DateOfBirth;
-                    }
-
-                    return person.DateJoined;
+                    return type == "of birth" ? person.DateOfBirth : person.DateJoined;
                 }
                 Console.WriteLine("Sorry, you have entered an invalid date format");
                 Console.WriteLine();
@@ -660,29 +640,31 @@ namespace School_Management
 
         private static string GetContactNo(string name,ISchoolMember person=null)
         {
-            string contactNo;
             while (true)
             {
                 Console.Write($"Enter a contact number for {name}:");
-                contactNo = Console.ReadLine();
-                if (contactNo.Length == 11 && (contactNo.StartsWith("07")||contactNo.StartsWith("0131")))
-                    return contactNo;
-                if (contactNo.Length == 0 && person != null)
+                var contactNo = Console.ReadLine();
+                switch (contactNo)
                 {
-                    return person.ContactNo;
+                    case {Length: 11} when (contactNo.StartsWith("07")||contactNo.StartsWith("0131")):
+                        return contactNo;
+                    case {Length: 0} when person != null:
+                        return person.ContactNo;
+                    default:
+                        Console.WriteLine("Sorry, you have entered an invalid contact number. Please enter a valid UK number with no formatting e.g.(07111122233,01314441123)");
+                        Console.WriteLine();
+                        break;
                 }
-                Console.WriteLine("Sorry, you have entered an invalid contact number. Please enter a valid UK number with no formatting e.g.(07111122233,01314441123)");
-                Console.WriteLine();
             }
         }
 
         private static void RemoveStuff()
         {
-            string options = "Which kind of object do you want to Remove?";
-            string option1 = "1. Pupil";
-            string option2 = "2. Teacher";
-            string option3 = "3. Course";
-            string option4 = "4. Class";
+            const string options = "Which kind of object do you want to Remove?";
+            const string option1 = "1. Pupil";
+            const string option2 = "2. Teacher";
+            const string option3 = "3. Course";
+            const string option4 = "4. Class";
 
             Console.WriteLine(options);
             Console.WriteLine(option1);
@@ -695,9 +677,9 @@ namespace School_Management
 
         private static void UpdateStuff()
         {
-            string options = "Which kind of object do you want to Update?";
-            string option1 = "1. Pupil/Teacher";
-            string option2 = "2. Course/Class";
+            const string options = "Which kind of object do you want to Update?";
+            const string option1 = "1. Pupil/Teacher";
+            const string option2 = "2. Course/Class";
 
             Console.WriteLine(options);
             Console.WriteLine(option1);
@@ -713,8 +695,8 @@ namespace School_Management
 
         private static void UpdatePeople()
         {
-            string option1 = "1. Update Pupils Details";
-            string option2 = "2. Update Teacher Details";
+            const string option1 = "1. Update Pupils Details";
+            const string option2 = "2. Update Teacher Details";
 
 
             Console.WriteLine();
@@ -726,10 +708,10 @@ namespace School_Management
 
         private static void UpdatePupils(int start = 0)
         {
-            DataAccess db = new DataAccess();
+            var db = new DataAccess();
             var students = db.GetStudents();
 
-            int length = students.Count;
+            var length = students.Count;
             var pupilArray = GetPeople(start, students, length);
 
             DisplayPeopleOptions(pupilArray);
@@ -740,15 +722,24 @@ namespace School_Management
 
         private static void UpdateTeachers(int start = 0)
         {
-            throw new NotImplementedException();
+            var db = new DataAccess();
+            var students = db.GetTeachers();
+
+            var length = students.Count;
+            var teacherArray = GetPeople(start, students, length);
+
+            DisplayPeopleOptions(teacherArray);
+
+
+            ShowOptions(teacherArray,UpdateTeacher, UpdatePeople, start, start + 4 >= length);
         }
 
 
         private static void UpdatePupil(ISchoolMember person)
         {
-            Pupil p = (Pupil)person;
-            var possibleAnswers = new string[] { "y", "ye", "yes" };
-            string choice = "";
+            var p = (Pupil)person;
+            var possibleAnswers = new[] { "y", "ye", "yes" };
+            var choice = "";
             string forename;
             string surname;
             DateTime dob;
@@ -762,13 +753,13 @@ namespace School_Management
                 Console.WriteLine("Leave input blank if you do not wish to change the detail");
                 Console.Write("Enter pupil Forename:");
                 forename = Console.ReadLine();
-                if (forename.Length == 0)
+                if (forename is {Length: 0})
                 {
                     forename = p.Forename;
                 }
                 Console.Write("Enter pupil surname:");
                 surname = Console.ReadLine();
-                if (surname.Length == 0)
+                if (surname is {Length: 0})
                 {
                     surname = p.Surname;
                 }
@@ -776,7 +767,7 @@ namespace School_Management
                 contactNo = GetContactNo(forename,person);
                 Console.Write("Enter email contact:");
                 emailAddress = Console.ReadLine();
-                if (emailAddress.Length == 0)
+                if (emailAddress is {Length: 0})
                 {
                     emailAddress = p.EmailAddress;
                 }
@@ -784,12 +775,12 @@ namespace School_Management
                 dateJoined = GetDate(person,"joined");
 
                 Console.WriteLine();
-                Pupil temp = new Pupil(forename,surname,dob,contactNo,emailAddress,dateJoined);
+                var temp = new Pupil(forename,surname,dob,contactNo,emailAddress,dateJoined);
                 Console.WriteLine(temp.ShowDetails());
 
                 Console.WriteLine("Is this okay? (Y/N)");
                 choice = Console.ReadLine();
-                if (Array.Exists(possibleAnswers, answer => answer == choice.ToLower()))
+                if (Array.Exists(possibleAnswers, answer => choice != null && answer == choice.ToLower()))
                 {
                     break;
                 }
@@ -805,7 +796,7 @@ namespace School_Management
 
         private static void UpdateTeacher(ISchoolMember person)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Updating Teacher :)");
         }
 
 
