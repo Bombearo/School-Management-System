@@ -87,7 +87,46 @@ namespace School_Management
             back();
         }
 
-        private static void ShowOptions(ISchoolMember[] students,Action<ISchoolMember> func, Action back, int start = 0, bool end = false,bool teacher = false)
+        private static void ShowOptions(Action option1, Action option2, Action option3, Action option4,Action back=null)
+        {
+            var running = true;
+            do
+            {
+
+                var input = Console.ReadLine();
+                if (!int.TryParse(input, out var choice) && input == "")
+                {
+                    choice = -1;
+                }
+                switch (choice)
+                {
+                    case -1:
+                        running = false;
+                        break;
+                    case 1:
+                        option1();
+                        break;
+                    case 2:
+                        option2();
+                        break;
+                    case 3:
+                        option3();
+                        break;
+                    case 4:
+                        option4();
+                        break;
+                    default:
+                        Console.WriteLine("Your input was not valid, please enter a correct number or nothing to exit.");
+                        break;
+                }
+
+            } while (running);
+
+            back?.Invoke();
+            System.Environment.Exit(0);
+        }
+
+        private static void ShowOptions(IReadOnlyList<ISchoolMember> students,Action<ISchoolMember> func, Action back, int start = 0, bool end = false,bool teacher = false)
         {
             var running = true;
 
@@ -144,8 +183,7 @@ namespace School_Management
 
             do
             {
-
-                string input = Console.ReadLine();
+                var input = Console.ReadLine();
                 if (!int.TryParse(input, out var choice) && input == "")
                 {
                     choice = -1;
@@ -162,7 +200,7 @@ namespace School_Management
                     case 2:
                     case 3:
                     case 4:
-                        ISchoolMember person = students[choice - 1];
+                        var person = students[choice - 1];
                         ShowSchoolMember(person);
                         break;
                     case 5:
@@ -176,10 +214,60 @@ namespace School_Management
             } while (running);
             back();
         }
-
-        private static void ShowOptions(Action option1, Action option2, Action option3, Action option4,Action back=null)
+        private static void ShowOptions(IReadOnlyList<ICourse> courses,Action<ICourse> func, Action back, int start = 0, bool end = false,bool isClass = false)
         {
             var running = true;
+
+            void ShowBack()
+            {
+                if (start != 0)
+                {
+                    if (isClass)
+                    {
+                        ViewClasses(start - 4);
+                        return;
+                    }
+
+                    //Back button logic
+                    ViewCourses(start - 4);
+                    return;
+                }
+                ShowCourse();
+            }
+
+
+            void ShowNext()
+            {
+                if (!end)
+                {
+                    //Next button logic
+                    if (isClass)
+                    {
+                        ViewClasses(start + 4);
+                        return;
+                    }
+                    ViewCourses(start + 4);
+                    return;
+                }
+                ShowCourse();
+            }
+
+
+            //Checks if the position is not null
+            void ShowCourse(ICourse course = null)
+            {
+                if (course!= null)
+                {
+                    //Go to pupil page function
+                    func(course);
+
+                    return;
+                }
+                Console.WriteLine("Your input was not valid, please enter a correct number or nothing to exit.");
+            }
+
+
+
             do
             {
 
@@ -193,27 +281,26 @@ namespace School_Management
                     case -1:
                         running = false;
                         break;
+                    case 0:
+                        ShowBack();
+                        break;
                     case 1:
-                        option1();
-                        break;
                     case 2:
-                        option2();
-                        break;
                     case 3:
-                        option3();
-                        break;
                     case 4:
-                        option4();
+                        var person = courses[choice - 1];
+                        ShowCourse(person);
+                        break;
+                    case 5:
+                        ShowNext();
                         break;
                     default:
-                        Console.WriteLine("Your input was not valid, please enter a correct number or nothing to exit.");
+                        ShowCourse();
                         break;
                 }
 
             } while (running);
-
-            back?.Invoke();
-            System.Environment.Exit(0);
+            back();
         }
 
         //Pages
@@ -320,7 +407,7 @@ namespace School_Management
             }
 
             //Allows for null values in array
-            for (int i = 0; i < student.Count; i++)
+            for (var i = 0; i < student.Count; i++)
             {
                 studentArray[i] = student[i];
             }
@@ -332,7 +419,7 @@ namespace School_Management
 
         private static void DisplayPeopleOptions(ISchoolMember[] peopleList)
         {
-            int counter = 0;
+            var counter = 0;
             foreach (ISchoolMember person in peopleList)
             {
                 if (person != null)
@@ -348,13 +435,40 @@ namespace School_Management
         }
         private static void ViewClasses(int start = 0)
         {
-            DataAccess db = new DataAccess();
+            var db = new DataAccess();
             var classes = db.GetClasses();
             foreach(var classItem in classes){
                 Console.WriteLine(classItem.ShowDetails());
                 Console.WriteLine();
             }
         }
+        
+        private static ICourse[] GetCourses(int start,List<ICourse> courses,int length)
+        {
+            var courseArray = new ICourse[4];
+            List<ICourse> course;
+            if (length < 4)
+            {
+                course = courses.GetRange(0, length);
+            }
+            else
+            {
+                var end = Math.Min(length,start+4);
+
+                end = Math.Min(end, end-start);
+
+                course = courses.GetRange(start, end);
+            }
+
+            //Allows for null values in array
+            for (var i = 0; i < course.Count; i++)
+            {
+                courseArray[i] = course[i];
+            }
+
+            return courseArray;
+        }
+
 
         //ViewPupil route
         private static void ShowPerson(ISchoolMember person)
@@ -378,8 +492,6 @@ namespace School_Management
                     UpdateTeacher(person);
 
 
-                    break;
-                default:
                     break;
             }
             AddStuff();
@@ -405,11 +517,11 @@ namespace School_Management
 
         private static void AddPupil()
         {
-            var addAnother = "";
+            string addAnother;
             var possibleAnswers = new string[] { "y", "ye", "yes" };
             do
             {
-                var choice = "";
+                string choice;
                 Pupil person;
 
                 do

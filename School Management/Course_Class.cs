@@ -77,7 +77,7 @@ namespace School_Management
         {
             base.AddSelf();
             DataAccess db = new DataAccess();
-            this.ClassId = db.AddClass(this.DayOfWeek,this.TeacherId,this.ClassTime, this.CourseID);
+            this.ClassId = db.AddClass(this.DayOfWeek,this.TeacherId,this.ClassTime, this.CourseId);
 
         }
 
