@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace School_Management
 {
@@ -902,16 +903,88 @@ namespace School_Management
             p.UpdateSelf(forename,surname,dob,contactNo,emailAddress,dateJoined);
 
             UpdateStuff();
-            //p.UpdateSelf();
-            //UpdatePeople();
         }
 
+        private static bool CheckBonus()
+        {
+            while (true)
+            {
+                var input = Console.ReadLine();
+                var lower = input?.ToLower();
+                switch (lower)
+                {
+                    case "y":
+                    case "ye":
+                    case "yes":
+                        return true;
+                    case "n":
+                    case "no":
+                        return false;
+                }
+                Console.WriteLine("Please enter Y/N to answer. ALl other inputs won't be accepted");
+            }
+        }
+        
         private static void UpdateTeacher(ISchoolMember person)
         {
-            Console.WriteLine("Updating Teacher :)");
+            var p = (Teacher)person;
+            var possibleAnswers = new[] { "y", "ye", "yes" };
+            var choice = "";
+            string forename;
+            string surname;
+            DateTime dob;
+            string contactNo;
+            string emailAddress;
+            DateTime dateJoined;
+            string expertise;
+            int salary;
+            bool bonusAdded;
+
+            while(true)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Leave input blank if you do not wish to change the detail");
+                Console.Write("Enter pupil Forename:");
+                forename = Console.ReadLine();
+                if (forename is {Length: 0})
+                {
+                    forename = p.Forename;
+                }
+                Console.Write("Enter pupil surname:");
+                surname = Console.ReadLine();
+                if (surname is {Length: 0})
+                {
+                    surname = p.Surname;
+                }
+                dob = GetDate(person);
+                contactNo = GetContactNo(forename,person);
+                Console.Write("Enter email contact:");
+                emailAddress = Console.ReadLine();
+                if (emailAddress is {Length: 0})
+                {
+                    emailAddress = p.EmailAddress;
+                }
+
+                dateJoined = GetDate(person,"joined");
+
+                expertise = Console.ReadLine();
+                salary = GetSalary();
+                bonusAdded = CheckBonus();
+                
+                Console.WriteLine();
+                var temp = new Teacher(forename,surname,dob,expertise,salary,dateJoined,bonusAdded,contactNo,emailAddress);
+                Console.WriteLine(temp.ShowDetails());
+
+                Console.WriteLine("Is this okay? (Y/N)");
+                choice = Console.ReadLine();
+                if (Array.Exists(possibleAnswers, answer => choice != null && answer == choice.ToLower()))
+                {
+                    break;
+                }
+            }
+            p.UpdateSelf(forename,surname,dob,dateJoined,expertise,bonusAdded,salary,contactNo,emailAddress);
+
+            UpdateStuff();
         }
-
-
-
     }
 }

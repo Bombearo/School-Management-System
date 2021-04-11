@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace School_Management
 {
-    class Course_Class:Course
+    class CourseClass:Course
     {
         /*
          System.InvalidOperationException: 'A parameterless default constructor or one matching signature (System.Int32 ClassId, System.String Subject, System.String Level,
@@ -16,7 +16,7 @@ namespace School_Management
 
 
         //Database Constructor
-        public Course_Class(
+        public CourseClass(
             int classId,
             string subject,
             string level,
@@ -31,7 +31,7 @@ namespace School_Management
             this.ClassTime = classTime;
             this.DayOfWeek = dayOfWeek;
         }
-        public Course_Class(
+        public CourseClass(
         string subject,
         string level,
         int scqf,
@@ -44,7 +44,7 @@ namespace School_Management
             this.ClassTime = classTime;
             this.DayOfWeek = dayOfWeek;
         }
-        public Course_Class(
+        public CourseClass(
         string subject,
         string level,
         int scqf,

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Dapper;
-using Dapper.Contrib;
 using System.Data;
 
 namespace School_Management
@@ -24,7 +23,7 @@ namespace School_Management
             string emailAddress)
         {
 
-            int personId = AddPerson(forename, surname, dateOfBirth, contactInfo, emailAddress);
+            var personId = AddPerson(forename, surname, dateOfBirth, contactInfo, emailAddress);
 
             var parameters = new DynamicParameters();
             parameters.Add("@DateJoined", dateJoined);
@@ -47,23 +46,6 @@ namespace School_Management
             }
         }
 
-        public int CheckCourse(int scqf, string level, string subject)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@Scqf", scqf);
-            parameters.Add("@Level", level);
-            parameters.Add("@Subject", subject);
-
-            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
-            {
-                int CourseId = connection.QuerySingle<int>("dbo.CheckCourseExists",
-                    parameters,
-                    commandType: CommandType.StoredProcedure);
-                connection.Close();
-                return CourseId;
-            }
-        }
-
         public int AddClass(string dayOfWeek, int teacherId, TimeSpan classTime,int courseId)
         {
             var parameters = new DynamicParameters();
@@ -74,7 +56,7 @@ namespace School_Management
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
-                int classId = connection.QuerySingle<int>("dbo.Class_Insert",
+                var classId = connection.QuerySingle<int>("dbo.Class_Insert",
                     parameters,
                     commandType: CommandType.StoredProcedure);
                 connection.Close();
@@ -106,11 +88,11 @@ namespace School_Management
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
-                int CourseId = connection.QuerySingle<int>("dbo.Course_Insert",
+                var courseId = connection.QuerySingle<int>("dbo.Course_Insert",
                     parameters,
                     commandType: CommandType.StoredProcedure);
                 connection.Close();
-                return CourseId;
+                return courseId;
             }
         }
 
@@ -122,7 +104,7 @@ namespace School_Management
         string emailAddress)
         {
 
-            int personId = AddPerson(forename, surname, dateOfBirth, contactInfo, emailAddress);
+            var personId = AddPerson(forename, surname, dateOfBirth, contactInfo, emailAddress);
 
             var parameters = new DynamicParameters();
             parameters.Add("@DateJoined", dateJoined);
@@ -153,15 +135,15 @@ namespace School_Management
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
-                int PersonId = connection.QuerySingle<int>("dbo.People_Insert",
+                int personId = connection.QuerySingle<int>("dbo.People_Insert",
                     parameters,
                     commandType: CommandType.StoredProcedure);
                 connection.Close();
-                return PersonId;
+                return personId;
             }
         }
 
-        private void UpdatePerson(int personID,
+        private void UpdatePerson(int personId,
             string forename,
             string surname,
             DateTime dateOfBirth,
@@ -169,9 +151,9 @@ namespace School_Management
             string emailAddress)
         {
             var parameters = new DynamicParameters();
-            Console.WriteLine($"{personID} {forename} {surname} {dateOfBirth} {emailAddress} {contactInfo}");
+            Console.WriteLine($"{personId} {forename} {surname} {dateOfBirth} {emailAddress} {contactInfo}");
 
-            parameters.Add("@PersonID",personID);
+            parameters.Add("@PersonID",personId);
             parameters.Add("@Forename", forename);
             parameters.Add("@Surname", surname);
             parameters.Add("@DateOfBirth", dateOfBirth);
@@ -186,7 +168,7 @@ namespace School_Management
             }
         }
 
-        public void UpdatePupil(int personID,
+        public void UpdatePupil(int personId,
         string forename,
         string surname,
         DateTime dateOfBirth,
@@ -194,10 +176,10 @@ namespace School_Management
         string emailAddress,
         DateTime dateJoined)
         {
-            UpdatePerson(personID,forename,surname,dateOfBirth,contactInfo,emailAddress);
+            UpdatePerson(personId,forename,surname,dateOfBirth,contactInfo,emailAddress);
             var parameters = new DynamicParameters();
             parameters.Add("@DateJoined", dateJoined);
-            parameters.Add("@PersonID", personID);
+            parameters.Add("@PersonID", personId);
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
@@ -207,12 +189,13 @@ namespace School_Management
             }
             
         }
+        
 
         public List<ISchoolMember> GetStudents() {
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB"))) {
                 var pupilList = connection.Query<Pupil>("dbo.Get_Students_By_Age").ToList();
-                List<ISchoolMember> schoolMembers = new List<ISchoolMember>();
+                var schoolMembers = new List<ISchoolMember>();
                 connection.Close();
                 foreach (ISchoolMember pupil in pupilList)
                 {
@@ -221,12 +204,12 @@ namespace School_Management
                 return schoolMembers;
             }
         }
-        public List<Course_Class> GetClasses()
+        public List<CourseClass> GetClasses()
         {
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
-                var classList = connection.Query<Course_Class>("dbo.Get_Class_By_Subject_Name").ToList();
+                var classList = connection.Query<CourseClass>("dbo.Get_Class_By_Subject_Name").ToList();
                 connection.Close();
                 return classList;
             }
@@ -237,13 +220,31 @@ namespace School_Management
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
                 var teacherList = connection.Query<Teacher>("dbo.Get_Teacher_By_Surname").ToList();
-                List<ISchoolMember> schoolMembers = new List<ISchoolMember>();
+                var schoolMembers = new List<ISchoolMember>();
                 connection.Close();
                 foreach (ISchoolMember teacher in teacherList)
                 {
                     schoolMembers.Add(teacher);
                 }
                 return schoolMembers;
+            }
+        }
+
+        public void UpdateTeacher(int personId,string forename, string surname, DateTime dateOfBirth, DateTime dateJoined, string expertise, bool bonusAdded, int salary, string contactNo, string emailAddress)
+        {
+            UpdatePerson(personId,forename,surname,dateOfBirth,contactNo,emailAddress);
+            var parameters = new DynamicParameters();
+            parameters.Add("@DateJoined", dateJoined);
+            parameters.Add("@Salary",salary);
+            parameters.Add("@Expertise",expertise);
+            parameters.Add("@bonusAdded",bonusAdded);
+            parameters.Add("@PersonID", personId);
+
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                connection.Execute("dbo.Teacher_Update",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
             }
         }
     }

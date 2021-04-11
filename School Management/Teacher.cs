@@ -15,12 +15,28 @@ namespace School_Management
             string expertise,
             int salary,
             string contactInfo = null,
+            string emailAddress = null,
+            bool bonusAdded = false) : base(forename,surname,dateOfBirth,contactInfo,emailAddress)
+        {
+            this.Salary = salary;
+            this.BonusAdded = bonusAdded;
+            this.Expertise = expertise;
+            this.DateJoined = DateTime.Today;
+        }
+        public Teacher(string forename,
+            string surname,
+            DateTime dateOfBirth,
+            string expertise,
+            int salary,
+            DateTime dateJoined,
+            bool bonusAdded = false,
+            string contactInfo = null,
             string emailAddress = null) : base(forename,surname,dateOfBirth,contactInfo,emailAddress)
         {
             this.Salary = salary;
-            this.BonusAdded = false;
+            this.BonusAdded = bonusAdded;
             this.Expertise = expertise;
-            this.DateJoined = DateTime.Today;
+            this.DateJoined = dateJoined;
         }
 
 
@@ -74,22 +90,29 @@ namespace School_Management
 
         public override string ShowDetails()
         {
-            string name = $"{"Name",-15}: {this.Name,30}";
-            string age = $"{"Age",-15}: {this.Age,30}";
-            string salary = $"{"Salary",-15}: £{this.Salary,30}";
-            string expertise = $"{"Expertise",-15}: {this.Expertise,30}";
-            string contactNo = $"{"Contact Number",-15}: {this.ContactNo,30}";
-            string emailAddress = $"{"Email Address",-15}: {this.EmailAddress,30}";
+            var name = $"{"Name",-15}: {this.Name,30}";
+            var age = $"{"Age",-15}: {this.Age,30}";
+            var salary = $"{"Salary",-15}: £{this.Salary,30}";
+            var expertise = $"{"Expertise",-15}: {this.Expertise,30}";
+            var contactNo = $"{"Contact Number",-15}: {this.ContactNo,30}";
+            var emailAddress = $"{"Email Address",-15}: {this.EmailAddress,30}";
 
-            List<string> messages = new List<string> { name, age, salary, expertise, contactNo, emailAddress };
+            var messages = new List<string> { name, age, salary, expertise, contactNo, emailAddress };
             return string.Join("\n",messages);
         }
 
         public void AddSelf()
         {
-            DataAccess db = new DataAccess();
+            var db = new DataAccess();
 
             db.AddTeacher(this.Forename,this.Surname,this.DateOfBirth,this.DateJoined,this.Expertise,this.BonusAdded,this.Salary,this.ContactNo,this.EmailAddress);
+        }
+
+        public void UpdateSelf(string forename, string surname, DateTime dateOfBirth, DateTime dateJoined, string expertise, bool bonusAdded, int salary, string contactNo, string emailAddress)
+        {
+            var db = new DataAccess();
+
+            db.UpdateTeacher(this.PersonId,forename,surname,dateOfBirth,dateJoined,expertise,bonusAdded,salary,contactNo,emailAddress);
         }
     }
 }
