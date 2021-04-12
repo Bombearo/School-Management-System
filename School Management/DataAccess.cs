@@ -71,7 +71,7 @@ namespace School_Management
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
-                Teacher teacher = connection.QuerySingle<Teacher>("dbo.FindTeacher",
+                var teacher = connection.QuerySingle<Teacher>("dbo.FindTeacher",
                     parameters,
                     commandType: CommandType.StoredProcedure);
                 connection.Close();
@@ -135,7 +135,7 @@ namespace School_Management
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
-                int personId = connection.QuerySingle<int>("dbo.People_Insert",
+                var personId = connection.QuerySingle<int>("dbo.People_Insert",
                     parameters,
                     commandType: CommandType.StoredProcedure);
                 connection.Close();
@@ -195,13 +195,8 @@ namespace School_Management
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB"))) {
                 var pupilList = connection.Query<Pupil>("dbo.Get_Students_By_Age").ToList();
-                var schoolMembers = new List<ISchoolMember>();
                 connection.Close();
-                foreach (ISchoolMember pupil in pupilList)
-                {
-                    schoolMembers.Add(pupil);
-                }
-                return schoolMembers;
+                return pupilList.Cast<ISchoolMember>().ToList();
             }
         }
         public List<CourseClass> GetClasses()
@@ -220,13 +215,8 @@ namespace School_Management
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
                 var teacherList = connection.Query<Teacher>("dbo.Get_Teacher_By_Surname").ToList();
-                var schoolMembers = new List<ISchoolMember>();
                 connection.Close();
-                foreach (ISchoolMember teacher in teacherList)
-                {
-                    schoolMembers.Add(teacher);
-                }
-                return schoolMembers;
+                return teacherList.Cast<ISchoolMember>().ToList();
             }
         }
 
@@ -245,6 +235,33 @@ namespace School_Management
                 connection.Execute("dbo.Teacher_Update",
                     parameters,
                     commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public void UpdateCourse(int courseId, string subject, string level, int scqf)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@Subject",subject);
+            parameters.Add("@Level", level);
+            parameters.Add("@Scqf", scqf);
+            parameters.Add("@CourseId", courseId);
+
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                connection.Execute("dbo.Course_Update",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public List<ICourse> GetCourses()
+        {
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                var courseList = connection.Query<Course>("dbo.Get_Course_By_Level").ToList();
+                connection.Close();
+                return courseList.Cast<ICourse>().ToList();
             }
         }
     }

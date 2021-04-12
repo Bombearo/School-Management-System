@@ -247,7 +247,8 @@ namespace School_Management
             } while (running);
             back();
         }
-        private static void ShowOptions(IReadOnlyList<ICourse> courses,Action<ICourse> func, Action back, int start = 0, bool end = false,bool isClass = false)
+                
+        private static void ShowOptions(IReadOnlyList<ICourse> courses,Action<ICourse> func, Action back, int start = 0, bool end = false,bool isClass = false,string mode = "View")
         {
             var running = true;
 
@@ -257,15 +258,15 @@ namespace School_Management
                 {
                     if (isClass)
                     {
-                        ViewClasses(start - 4);
+                        ViewClasses(start - 4,mode);
                         return;
                     }
 
                     //Back button logic
-                    ViewCourses(start - 4);
+                    ViewCourses(start - 4,mode);
                     return;
                 }
-                ShowCourse();
+                ShowCurrentCourse();
             }
 
 
@@ -276,18 +277,18 @@ namespace School_Management
                     //Next button logic
                     if (isClass)
                     {
-                        ViewClasses(start + 4);
+                        ViewClasses(start + 4,mode);
                         return;
                     }
-                    ViewCourses(start + 4);
+                    ViewCourses(start + 4,mode);
                     return;
                 }
-                ShowCourse();
+                ShowCurrentCourse();
             }
 
 
             //Checks if the position is not null
-            void ShowCourse(ICourse course = null)
+            void ShowCurrentCourse(ICourse course = null)
             {
                 if (course!= null)
                 {
@@ -322,13 +323,13 @@ namespace School_Management
                     case 3:
                     case 4:
                         var person = courses[choice - 1];
-                        ShowCourse(person);
+                        ShowCurrentCourse(person);
                         break;
                     case 5:
                         ShowNext();
                         break;
                     default:
-                        ShowCourse();
+                        ShowCurrentCourse();
                         break;
                 }
 
@@ -394,7 +395,7 @@ namespace School_Management
             Console.WriteLine(option1);
             Console.WriteLine(option2);
             Console.WriteLine("Or enter nothing to go back");
-            ShowOptions(ViewCourses,ViewClasses,ViewStuff);
+            ShowOptions(start => ViewCourses(start),start => ViewClasses(start),ViewStuff);
         }
 
         //Get the details from DB and display. 
@@ -480,11 +481,53 @@ namespace School_Management
             }
         }
 
-        private static void ViewCourses(int start = 0)
+        private static void ViewCourses(int start = 0, string mode="View")
         {
+            var db = new DataAccess();
+            var courses = db.GetCourses();
 
+            var length = courses.Count;
+            var teacherList = GetCourses(start, courses, length);
+
+            switch (mode)
+            {
+                case "View":
+                    ShowOptions(courses, ShowCourse, ViewCourseClasses,start, start + 4 >= length,mode:mode);
+                    break;
+                case "Update":
+                    ShowOptions(courses, UpdateCourse, UpdateCourseClasses,start, start + 4 >= length,mode:mode);
+                    break;
+            }
         }
-        private static void ViewClasses(int start = 0)
+        
+
+        private static void ShowCourse(ICourse course)
+        {
+            Console.WriteLine(course.ShowDetails());
+            Console.WriteLine("Would you like to update these details? (Y/N)");
+            var choice = Console.ReadLine();
+            choice = choice?.ToLower();
+            switch (choice)
+            {
+                case "y":
+                case "ye":
+                case "yes":
+
+                    if (course is not CourseClass)
+                    {
+                        var c = (CourseClass) course;
+                        UpdateClass(c);
+                        break;
+                    }
+                    UpdateCourse(course);
+
+
+                    break;
+            }
+            AddStuff();
+        }
+
+        private static void ViewClasses(int start = 0, string mode="View")
         {
             var db = new DataAccess();
             var classes = db.GetClasses();
@@ -711,14 +754,20 @@ namespace School_Management
             return (!Array.Exists(possibleAnswers, answer => input != null && answer == input.ToLower()));
         }
 
-        private static int GetScqf()
+        private static int GetScqf(string mode ="Add")
         {
             while (true)
             {
                 Console.Write("Enter SCQF Level(1-8): ");
                 var input = Console.ReadLine();
                 if (int.TryParse(input, out var scqf) && scqf is < 9 and > 0)
+                {
                     return scqf;
+                }
+                if (input != null && mode != "Add" && input.Length == 0)
+                {
+                    return 0;
+                }
                 Console.WriteLine("Sorry, you have entered an invalid SCQF level. Please enter a number between 1 and 8");
                 Console.WriteLine();
             }
@@ -848,12 +897,25 @@ namespace School_Management
             Console.WriteLine(option1);
             Console.WriteLine(option2);
             Console.WriteLine("Or enter nothing to go back to the HomePage");
-            ShowOptions(UpdatePeople, UpdateCourses, HomePage);
+            ShowOptions(UpdatePeople, UpdateCourseClasses, HomePage);
         }
 
-        private static void UpdateCourses()
+        private static void UpdateCourseClasses()
         {
-            throw new NotImplementedException();
+            const string options = "Which kind of object do you want to Update?";
+            const string option1 = "1. Course";
+            const string option2 = "2. Class";
+
+            Console.WriteLine(options);
+            Console.WriteLine(option1);
+            Console.WriteLine(option2);
+            Console.WriteLine("Or enter nothing to go back to the HomePage");
+            ShowOptions(UpdateCourses, UpdateClasses, HomePage);
+        }
+
+        private static void UpdateCourses(int start=0)
+        {
+            ViewCourses(start,"Update");
         }
 
         private static void UpdatePeople()
@@ -871,12 +933,12 @@ namespace School_Management
 
         private static void UpdatePupils(int start = 0)
         {
-            ViewPupils(mode:"Update");
+            ViewPupils(start,"Update");
         }
 
         private static void UpdateTeachers(int start = 0)
         {
-            ViewTeachers(mode:"Update");
+            ViewTeachers(start,"Update");
         }
 
 
@@ -1024,6 +1086,58 @@ namespace School_Management
             p.UpdateSelf(forename,surname,dob,dateJoined,expertise,bonusAdded,salary,contactNo,emailAddress);
 
             UpdateStuff();
+        }
+        private static void UpdateCourse(ICourse course)
+        {
+            var course1 = (Course)course;
+            var possibleAnswers = new[] { "y", "ye", "yes" };
+            var choice = "";
+            string subject;
+            int scqf;
+            string level;
+
+            while(true)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Leave input blank if you do not wish to change the detail");
+                Console.Write("Enter course subject:");
+                subject = Console.ReadLine();
+                if (subject is {Length: 0})
+                {
+                    subject = course1.Subject;
+                }
+                scqf = GetScqf("Update");
+                if (scqf == 0)
+                {
+                    scqf = course1.Scqf;
+                }
+
+                level = GetLevel(scqf);
+                Console.WriteLine();
+                var temp = new Course(subject,level,scqf);
+                Console.WriteLine(temp.ShowDetails());
+
+                Console.WriteLine("Is this okay? (Y/N)");
+                choice = Console.ReadLine();
+                if (Array.Exists(possibleAnswers, answer => choice != null && answer == choice.ToLower()))
+                {
+                    break;
+                }
+            }
+            
+            course1.UpdateSelf(subject,level,scqf);
+
+            UpdateStuff();
+        }
+        
+        private static void UpdateClasses(int start=0)
+        {
+            ViewClasses(start,"Update");
+        }
+        
+        private static void UpdateClass(CourseClass course)
+        {
+            throw new NotImplementedException();
         }
     }
 }

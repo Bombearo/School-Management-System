@@ -45,5 +45,11 @@ namespace School_Management
             var messages = new List<string> {subject,level,scqf};
             return string.Join("\n", messages);
         }
+
+        public void UpdateSelf(string subject,string level, int scqf)
+        {
+            var db = new DataAccess();
+            db.UpdateCourse(this.CourseId,subject,level,scqf);
+        }
     }
 }
