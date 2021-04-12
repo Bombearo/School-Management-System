@@ -56,6 +56,37 @@ namespace School_Management
             } while (running);
             back();
         }
+        private static void ShowOptions(Action<int, string> option1, Action<int, string> option2, Action back,int start = 0)
+        {
+            var running = true;
+            do
+            {
+
+                var input = Console.ReadLine();
+                if (!int.TryParse(input, out var choice) && input == "")
+                {
+                    choice = -1;
+                }
+                switch (choice)
+                {
+                    case -1:
+                        running = false;
+                        break;
+                    case 1:
+                        option1(start,"View");
+                        break;
+                    case 2:
+                        option2(start,"View");
+                        break;
+                    default:
+                        Console.WriteLine("Your input was not valid, please enter a correct number or nothing to exit.");
+                        break;
+                }
+
+            } while (running);
+            back();
+        }
+
 
         private static void ShowOptions(Action<int> option1, Action<int> option2, Action back,int start = 0)
         {
@@ -127,7 +158,8 @@ namespace School_Management
             System.Environment.Exit(0);
         }
 
-        private static void ShowOptions(IReadOnlyList<ISchoolMember> students,Action<ISchoolMember> func, Action back, int start = 0, bool end = false,bool teacher = false)
+        private static void ShowOptions(IReadOnlyList<ISchoolMember> students, Action<ISchoolMember> func, Action back,
+            int start = 0, bool end = false, bool teacher = false,string mode = "View")
         {
             var running = true;
 
@@ -137,12 +169,12 @@ namespace School_Management
                 {
                     if (teacher)
                     {
-                        ViewTeachers(start - 4);
+                        ViewTeachers(start - 4,mode);
                         return;
                     }
 
                     //Back button logic
-                    ViewPupils(start - 4);
+                    ViewPupils(start - 4,mode);
                     return;
                 }
                 ShowSchoolMember();
@@ -157,10 +189,10 @@ namespace School_Management
                     //Next button logic
                     if (teacher)
                     {
-                        ViewTeachers(start + 4);
+                        ViewTeachers(start + 4,mode);
                         return;
                     }
-                    ViewPupils(start + 4);
+                    ViewPupils(start + 4,mode);
                     return;
                 }
                 ShowSchoolMember();
@@ -350,6 +382,7 @@ namespace School_Management
             ShowOptions(ViewPupils,ViewTeachers,ViewStuff);
         }
 
+
         private static void ViewCourseClasses()
         {
             const string options = "Welcome! Please Enter one of the following options to proceed!";
@@ -365,7 +398,7 @@ namespace School_Management
         }
 
         //Get the details from DB and display. 
-        private static void ViewPupils(int start =0)
+        private static void ViewPupils(int start =0,string mode = "View")
         {
             var db = new DataAccess();
             var students = db.GetStudents();
@@ -374,11 +407,18 @@ namespace School_Management
             var pupilArray = GetPeople(start, students,length);
 
             DisplayPeopleOptions(pupilArray);
-
-
-            ShowOptions(pupilArray,ShowPerson, ViewPeople, start, start + 4 >= length);
+            switch (mode)
+            {
+                case "View":
+                    ShowOptions(pupilArray, ShowPerson, ViewPeople,start, start + 4 >= length,mode:mode);
+                    break;
+                case "Update":
+                    ShowOptions(pupilArray, UpdatePupil, UpdatePeople,start, start + 4 >= length,mode:mode);
+                    break;
+            }
+            
         }
-        private static void ViewTeachers(int start = 0)
+        private static void ViewTeachers(int start = 0,string mode = "View")
         {
             var db = new DataAccess();
             var teachers = db.GetTeachers();
@@ -387,7 +427,17 @@ namespace School_Management
             var teacherList = GetPeople(start, teachers, length);
             DisplayPeopleOptions(teacherList);
 
-            ShowOptions(teacherList, ShowPerson, ViewPeople, start, start + 4 >= length);
+            switch (mode)
+            {
+                case "View":
+                    ShowOptions(teacherList, ShowPerson, ViewPeople,start, start + 4 >= length,true,mode);
+                    break;
+                case "Update":
+                    ShowOptions(teacherList, UpdateTeacher, UpdatePeople,start, start + 4 >= length,true,mode);
+                    break;
+            }
+               
+               
         }
 
         private static ISchoolMember[] GetPeople(int start,List<ISchoolMember> students,int length)
@@ -418,7 +468,7 @@ namespace School_Management
 
  
 
-        private static void DisplayPeopleOptions(ISchoolMember[] peopleList)
+        private static void DisplayPeopleOptions(IEnumerable<ISchoolMember> peopleList)
         {
             var counter = 0;
             foreach (ISchoolMember person in peopleList)
@@ -821,30 +871,12 @@ namespace School_Management
 
         private static void UpdatePupils(int start = 0)
         {
-            var db = new DataAccess();
-            var students = db.GetStudents();
-
-            var length = students.Count;
-            var pupilArray = GetPeople(start, students, length);
-
-            DisplayPeopleOptions(pupilArray);
-
-
-            ShowOptions(pupilArray,UpdatePupil, UpdatePeople, start, start + 4 >= length);
+            ViewPupils(mode:"Update");
         }
 
         private static void UpdateTeachers(int start = 0)
         {
-            var db = new DataAccess();
-            var students = db.GetTeachers();
-
-            var length = students.Count;
-            var teacherArray = GetPeople(start, students, length);
-
-            DisplayPeopleOptions(teacherArray);
-
-
-            ShowOptions(teacherArray,UpdateTeacher, UpdatePeople, start, start + 4 >= length);
+            ViewTeachers(mode:"Update");
         }
 
 
@@ -909,6 +941,7 @@ namespace School_Management
         {
             while (true)
             {
+                Console.WriteLine("Would you like to grant a bonus? (Y/N)");
                 var input = Console.ReadLine();
                 var lower = input?.ToLower();
                 switch (lower)
@@ -944,13 +977,13 @@ namespace School_Management
             {
                 Console.WriteLine();
                 Console.WriteLine("Leave input blank if you do not wish to change the detail");
-                Console.Write("Enter pupil Forename:");
+                Console.Write("Enter teacher Forename:");
                 forename = Console.ReadLine();
                 if (forename is {Length: 0})
                 {
                     forename = p.Forename;
                 }
-                Console.Write("Enter pupil surname:");
+                Console.Write("Enter teacher surname:");
                 surname = Console.ReadLine();
                 if (surname is {Length: 0})
                 {
@@ -967,7 +1000,13 @@ namespace School_Management
 
                 dateJoined = GetDate(person,"joined");
 
+                Console.Write("Enter teacher Expertise:");
                 expertise = Console.ReadLine();
+                if (expertise is {Length: 0})
+                {
+                    expertise = p.Expertise;
+                }
+
                 salary = GetSalary();
                 bonusAdded = CheckBonus();
                 
