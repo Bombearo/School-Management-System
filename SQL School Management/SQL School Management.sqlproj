@@ -63,7 +63,9 @@
     <Folder Include="dbo\Views" />
   </ItemGroup>
   <ItemGroup>
+    <Build Include="dbo\Stored Procedures\Class_Update.sql" />
     <Build Include="dbo\Stored Procedures\Course_Update.sql" />
+    <Build Include="dbo\Stored Procedures\Get_Course_By_Level.sql" />
     <Build Include="dbo\Stored Procedures\Teacher_Update.sql" />
     <Build Include="dbo\Tables\Course_Class.sql" />
     <Build Include="dbo\Tables\Course.sql" />

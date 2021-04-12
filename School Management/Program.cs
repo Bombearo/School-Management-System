@@ -480,6 +480,18 @@ namespace School_Management
                 }
             }
         }
+        
+        private static void DisplayCourseOptions(IEnumerable<ICourse> courseList)
+        {
+            var counter = 0;
+            foreach (ICourse course in courseList)
+            {
+                if (course != null)
+                {
+                    Console.WriteLine($"{++counter}. Subject:{course.Subject} Level:{course.Level} SCQF:{course.Scqf}");
+                }
+            }
+        }
 
         private static void ViewCourses(int start = 0, string mode="View")
         {
@@ -487,15 +499,16 @@ namespace School_Management
             var courses = db.GetCourses();
 
             var length = courses.Count;
-            var teacherList = GetCourses(start, courses, length);
+            var courseList = GetCourses(start, courses, length);
 
+            DisplayCourseOptions(courseList);
             switch (mode)
             {
                 case "View":
-                    ShowOptions(courses, ShowCourse, ViewCourseClasses,start, start + 4 >= length,mode:mode);
+                    ShowOptions(courseList, ShowCourse, ViewCourseClasses,start, start + 4 >= length,mode:mode);
                     break;
                 case "Update":
-                    ShowOptions(courses, UpdateCourse, UpdateCourseClasses,start, start + 4 >= length,mode:mode);
+                    ShowOptions(courseList, UpdateCourse, UpdateCourseClasses,start, start + 4 >= length,mode:mode);
                     break;
             }
         }
@@ -750,7 +763,7 @@ namespace School_Management
         private static bool CheckCancel(string[] possibleAnswers)
         {
             Console.WriteLine("Would you like to cancel?");
-            string input = Console.ReadLine();
+            var input = Console.ReadLine();
             return (!Array.Exists(possibleAnswers, answer => input != null && answer == input.ToLower()));
         }
 
@@ -830,7 +843,7 @@ namespace School_Management
 
         private static void AddClass()
         {
-
+            throw new NotImplementedException();
         }
 
         private static DateTime GetDate(ISchoolMember person = null,string type = "of birth")

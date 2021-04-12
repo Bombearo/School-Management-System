@@ -10,5 +10,7 @@
         string ShowDetails();
 
         void AddSelf();
+
+        void UpdateSelf(string subject,string level, int scqf);
     }
 }

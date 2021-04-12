@@ -264,6 +264,25 @@ namespace School_Management
                 return courseList.Cast<ICourse>().ToList();
             }
         }
+
+        public void UpdateClass(int classId, int courseId, TimeSpan time, string dayOfWeek, int teacherId)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@ClassId",classId);
+            parameters.Add("@CourseId", courseId);
+            parameters.Add("@Time", time);
+            parameters.Add("@DayOfWeek", dayOfWeek);
+            parameters.Add("@TeacherId", teacherId);
+            
+
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                connection.Execute("dbo.Class_Update",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 
 }

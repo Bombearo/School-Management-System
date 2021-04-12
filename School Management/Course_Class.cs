@@ -76,33 +76,35 @@ namespace School_Management
         public override void AddSelf()
         {
             base.AddSelf();
-            DataAccess db = new DataAccess();
+            var db = new DataAccess();
             this.ClassId = db.AddClass(this.DayOfWeek,this.TeacherId,this.ClassTime, this.CourseId);
 
         }
 
         public override string ShowDetails()
         {
-            string dayOfWeek = $"{"Taught on",-15}:{DayOfWeek+'s',30}";
-            string time = $"{"Taught at",-15}:{ClassTime,30}";
-            string teacher = $"{"Taught by",-15}:{ClassTeacher.Name,30}";
+            var dayOfWeek = $"{"Taught on",-15}:{DayOfWeek+'s',30}";
+            var time = $"{"Taught at",-15}:{ClassTime,30}";
+            var teacher = $"{"Taught by",-15}:{ClassTeacher.Name,30}";
 
 
 
             var baseDetail = new string[] { $"{"COURSE",-45}", base.ShowDetails() };
             var msgs = new string[] { $"{"CLASS",-45}", dayOfWeek, time, teacher };
 
-            string courseDetail = string.Join("\n", baseDetail);
+            var courseDetail = string.Join("\n", baseDetail);
             var msgs2 = courseDetail.Split(new string[] {"\n"},StringSplitOptions.None);
 
-            var details = new List<string>();
-            for (int i = 0; i < msgs.Length; i++)
-            {
-                details.Add($"{msgs[i]}|{msgs2[i]}");
-            }
+            //Iterates over the list, and i keeps track of the position to select msgs2
+            var details = msgs.Select((t, i) => $"{t}|{msgs2[i]}").ToList();
 
             return string.Join("\n",details);
         }
 
+        public void UpdateSelf(TimeSpan time,string dayOfWeek,int teacherId,int courseId)
+        {
+            var db = new DataAccess();
+            db.UpdateClass(this.ClassId,courseId,time,dayOfWeek,teacherId);
+        }
     }
 }

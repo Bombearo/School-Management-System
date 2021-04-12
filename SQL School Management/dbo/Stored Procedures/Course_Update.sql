@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[Course_Insert]
+﻿CREATE PROCEDURE [dbo].[Course_Update]
 	@Scqf int,
 	@Subject nvarchar(50),
 	@Level nvarchar(20),
