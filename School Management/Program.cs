@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace School_Management
 {
@@ -526,13 +527,14 @@ namespace School_Management
                 case "ye":
                 case "yes":
 
-                    if (course is not CourseClass)
+                    if (course is not CourseClass c)
                     {
-                        var c = (CourseClass) course;
-                        UpdateClass(c);
+                       
+                        UpdateCourse(course);
                         break;
                     }
-                    UpdateCourse(course);
+
+                    UpdateClass(c);
 
 
                     break;
@@ -843,7 +845,123 @@ namespace School_Management
 
         private static void AddClass()
         {
+            var addAnother = "";
+            var possibleAnswers = new[] { "y", "ye", "yes" };
+            do
+            {
+                var choice = "";
+                CourseClass courseClass;
+
+                while(true)
+                {
+                    Console.WriteLine();
+                    var course = ChooseCourse();
+                    var time = ChooseTime();
+                    var day = ChooseDay();
+                    var t = ChooseTeacher();
+                    courseClass = new CourseClass(course.Subject,course.Level,course.Scqf,course.CourseId,t.TeacherId,time,day);
+                    Console.WriteLine(courseClass.ShowDetails());
+
+                    Console.WriteLine("Is this okay? (Y/N)");
+                    choice = Console.ReadLine();
+                    if(!Array.Exists(possibleAnswers, answer => choice != null && answer == choice.ToLower()))
+                    {
+                        break;
+                    }
+                    if (CheckCancel(possibleAnswers))
+                    {
+                        AddStuff();
+                        return;
+                    }
+
+                }
+                
+                courseClass.AddSelf();
+                Console.WriteLine("Add another course? (Y/N)");
+                addAnother = Console.ReadLine();
+            } while (Array.Exists(possibleAnswers, answer => addAnother != null && answer == addAnother.ToLower()));
+            AddStuff();
+        }
+
+        private static Teacher ChooseTeacher()
+        {
             throw new NotImplementedException();
+        }
+
+        private static Course ChooseCourse()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static TimeSpan ChooseTime()
+        {
+            var periods = new[] { "P1","P2","P3","P4","P5","P6"};
+            var times = new[]
+            {
+                new TimeSpan(8,30,0),
+                new TimeSpan(9,40,0),
+                new TimeSpan(11,05,0),
+                new TimeSpan(12,10,0),
+                new TimeSpan(13,35,0),
+                new TimeSpan(14,45,0)
+            };
+            
+            var details = periods.Select((t, i) => $"{i+1}. {t}|{times[i]}").ToList();
+            foreach (var detail in details)
+            {
+                Console.WriteLine(detail);
+            }
+            while (true)
+            {
+                Console.Write("Choose the appropriate number");
+                var input = Console.ReadLine();
+                if (int.TryParse(input, out var day))
+                {
+                    switch (day)
+                    {
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 6:
+                            return times[day-1];
+                        default:
+                            Console.WriteLine("You have chosen an invalid day. Please enter a number between 1 to 6");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Your input was not a valid number, please try again:");
+                }
+            }
+        }
+
+        private static string ChooseDay()
+        {
+            var days = new[] { "Monday","Tuesday","Wednesday","Thursday","Friday"};
+            while (true)
+            {
+                string[] choices;
+                var input = Console.ReadLine();
+                if (int.TryParse(input, out var day))
+                {
+                    switch (day)
+                    {
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            return days[day-1];
+                        default:
+                            Console.WriteLine("You have chosen an invalid day. Please enter a number between 1 to 5");
+                            break;
+                    }
+                }
+            }
+
         }
 
         private static DateTime GetDate(ISchoolMember person = null,string type = "of birth")

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace School_Management
 {
-    class CourseClass:Course
+    class CourseClass:Course,IClass
     {
         /*
          System.InvalidOperationException: 'A parameterless default constructor or one matching signature (System.Int32 ClassId, System.String Subject, System.String Level,
