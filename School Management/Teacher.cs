@@ -64,6 +64,8 @@ namespace School_Management
             this.PersonId = personId;
         }
         public int PersonId { get; set; }
+
+
         public int TeacherId { get; set; }
         public int Salary { get; set; }
         public string Expertise { get; set; }
@@ -113,6 +115,13 @@ namespace School_Management
             var db = new DataAccess();
 
             db.UpdateTeacher(this.PersonId,forename,surname,dateOfBirth,dateJoined,expertise,bonusAdded,salary,contactNo,emailAddress);
+        }
+        
+        public void RemoveSelf()
+        {
+            var db = new DataAccess();
+
+            DataAccess.RemoveTeacher(this.PersonId);
         }
     }
 }

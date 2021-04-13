@@ -51,5 +51,10 @@ namespace School_Management
             var db = new DataAccess();
             db.UpdateCourse(this.CourseId,subject,level,scqf);
         }
+
+        public void RemoveSelf()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

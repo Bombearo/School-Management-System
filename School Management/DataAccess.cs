@@ -283,6 +283,34 @@ namespace School_Management
                     commandType: CommandType.StoredProcedure);
             }
         }
+
+        public static void RemovePupil(int personId)
+        {
+            var parameters = new DynamicParameters();
+            
+            parameters.Add("@PersonId",personId);
+            
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                connection.Execute("dbo.Pupil_Delete",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public static void RemoveTeacher(int personId)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@PersonId", personId);
+
+            using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
+            {
+                connection.Execute("dbo.Teacher_Delete",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 
 }

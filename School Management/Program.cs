@@ -10,18 +10,6 @@ namespace School_Management
         private static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            /*DataAccess db = new DataAccess();
-            var pupils = db.GetClasses();
-            TimeSpan t = new TimeSpan(9, 30, 0);
-            var c = new Course_Class("Computing Science", "Advanced Higher", 7, 3, t, "Wednesday");
-
-            foreach (Course_Class course in pupils)
-            {
-                Console.WriteLine($"ClassId: {course.ClassId} TeacherId: {course.TeacherId} Day of week: {course.DayOfWeek}");
-
-            }
-            c.AddSelf();
-            */
             HomePage();
 
         }
@@ -89,7 +77,7 @@ namespace School_Management
         }
 
 
-        private static void ShowOptions(Action<int> option1, Action<int> option2, Action back,int start = 0)
+        private static void ShowOptions(Action<int> option1, Action<int> option2,Action<int> option3,Action<int> option4, Action back,int start = 0)
         {
             var running = true;
             do
@@ -110,6 +98,48 @@ namespace School_Management
                         break;
                     case 2:
                         option2(start);
+                        break;
+                    case 3:
+                        option3(start);
+                        break;
+                    case 4:
+                        option4(start);
+                        break;
+                    default:
+                        Console.WriteLine("Your input was not valid, please enter a correct number or nothing to exit.");
+                        break;
+                }
+
+            } while (running);
+            back();
+        }
+        private static void ShowOptions(Action<int,string> option1, Action<int,string> option2,Action<int,string> option3,Action<int,string> option4, Action back,int start = 0,string mode="View")
+        {
+            var running = true;
+            do
+            {
+
+                var input = Console.ReadLine();
+                if (!int.TryParse(input, out var choice) && input == "")
+                {
+                    choice = -1;
+                }
+                switch (choice)
+                {
+                    case -1:
+                        running = false;
+                        break;
+                    case 1:
+                        option1(start,mode);
+                        break;
+                    case 2:
+                        option2(start,mode);
+                        break;
+                    case 3:
+                        option3(start,mode);
+                        break;
+                    case 4:
+                        option4(start,mode);
                         break;
                     default:
                         Console.WriteLine("Your input was not valid, please enter a correct number or nothing to exit.");
@@ -156,7 +186,7 @@ namespace School_Management
             } while (running);
 
             back?.Invoke();
-            System.Environment.Exit(0);
+            Environment.Exit(0);
         }
 
         private static void ShowOptions(IReadOnlyList<ISchoolMember> students, Action<ISchoolMember> func, Action back,
@@ -359,44 +389,19 @@ namespace School_Management
 
         private static void ViewStuff()
         {
-            const string options = "Welcome! Please Enter one of the following options to proceed!";
-            const string option1 = "1. View Pupil/Teacher details";
-            const string option2 = "2. View Course/Class details";
+            const string options = "Which kind of object do you want to add?";
+            const string option1 = "1. Pupil";
+            const string option2 = "2. Teacher";
+            const string option3 = "3. Course";
+            const string option4 = "4. Class";
 
             Console.WriteLine(options);
             Console.WriteLine(option1);
             Console.WriteLine(option2);
-            Console.WriteLine("Or enter nothing to quit");
-            ShowOptions(ViewPeople, ViewCourseClasses,HomePage);
-        }
-
-        private static void ViewPeople()
-        {
-            const string options = "Welcome! Please Enter one of the following options to proceed!";
-            const string option1 = "1. View Pupils Details";
-            const string option2 = "2. View Teacher Details";
-
-
-            Console.WriteLine(options);
-            Console.WriteLine(option1);
-            Console.WriteLine(option2);
-            Console.WriteLine("Or enter nothing to go back");
-            ShowOptions(ViewPupils,ViewTeachers,ViewStuff);
-        }
-
-
-        private static void ViewCourseClasses()
-        {
-            const string options = "Welcome! Please Enter one of the following options to proceed!";
-            const string option1 = "1. View Course Details";
-            const string option2 = "2. View Class Details";
-
-
-            Console.WriteLine(options);
-            Console.WriteLine(option1);
-            Console.WriteLine(option2);
-            Console.WriteLine("Or enter nothing to go back");
-            ShowOptions(start => ViewCourses(start),start => ViewClasses(start),ViewStuff);
+            Console.WriteLine(option3);
+            Console.WriteLine(option4);
+            Console.WriteLine("Or enter nothing to go back to the HomePage");
+            ShowOptions(ViewPupils, ViewTeachers,ViewCourses,ViewClasses,HomePage);
         }
 
         //Get the details from DB and display. 
@@ -412,10 +417,13 @@ namespace School_Management
             switch (mode)
             {
                 case "View":
-                    ShowOptions(pupilArray, ShowPerson, ViewPeople,start, start + 4 >= length,mode:mode);
+                    ShowOptions(pupilArray, ShowPerson, ViewStuff,start, start + 4 >= length,mode:mode);
                     break;
                 case "Update":
-                    ShowOptions(pupilArray, UpdatePupil, UpdatePeople,start, start + 4 >= length,mode:mode);
+                    ShowOptions(pupilArray, UpdatePupil, UpdateStuff,start, start + 4 >= length,mode:mode);
+                    break;
+                case "Remove":
+                    ShowOptions(pupilArray, RemovePupil, RemoveStuff,start, start + 4 >= length,mode:mode);
                     break;
             }
             
@@ -432,10 +440,13 @@ namespace School_Management
             switch (mode)
             {
                 case "View":
-                    ShowOptions(teacherList, ShowPerson, ViewPeople,start, start + 4 >= length,true,mode);
+                    ShowOptions(teacherList, ShowPerson, ViewStuff,start, start + 4 >= length,true,mode);
                     break;
                 case "Update":
-                    ShowOptions(teacherList, UpdateTeacher, UpdatePeople,start, start + 4 >= length,true,mode);
+                    ShowOptions(teacherList, UpdateTeacher, UpdateStuff,start, start + 4 >= length,true,mode);
+                    break;
+                case "Remove":
+                    ShowOptions(teacherList, RemoveTeacher, RemoveStuff,start, start + 4 >= length,true,mode);
                     break;
             }
                
@@ -506,10 +517,13 @@ namespace School_Management
             switch (mode)
             {
                 case "View":
-                    ShowOptions(courseList, ShowCourse, ViewCourseClasses,start, start + 4 >= length,mode:mode);
+                    ShowOptions(courseList, ShowCourse, ViewStuff,start, start + 4 >= length,mode:mode);
                     break;
                 case "Update":
-                    ShowOptions(courseList, UpdateCourse, UpdateCourseClasses,start, start + 4 >= length,mode:mode);
+                    ShowOptions(courseList, UpdateCourse, UpdateStuff,start, start + 4 >= length,mode:mode);
+                    break;
+                case "Remove":
+                    ShowOptions(courseList, RemoveCourse, RemoveStuff,start, start + 4 >= length,mode:mode);
                     break;
             }
         }
@@ -1001,9 +1015,11 @@ namespace School_Management
             }
         }
 
-        private static void RemoveStuff()
+        
+
+        private static void UpdateStuff()
         {
-            const string options = "Which kind of object do you want to Remove?";
+            const string options = "Which kind of object do you want to add?";
             const string option1 = "1. Pupil";
             const string option2 = "2. Teacher";
             const string option3 = "3. Course";
@@ -1015,51 +1031,12 @@ namespace School_Management
             Console.WriteLine(option3);
             Console.WriteLine(option4);
             Console.WriteLine("Or enter nothing to go back to the HomePage");
-            ShowOptions(AddPupil, AddTeacher, AddCourse, AddClass, HomePage);
+            ShowOptions(UpdatePupils, UpdateTeachers,UpdateCourses,UpdateClasses, HomePage);
         }
-
-        private static void UpdateStuff()
-        {
-            const string options = "Which kind of object do you want to Update?";
-            const string option1 = "1. Pupil/Teacher";
-            const string option2 = "2. Course/Class";
-
-            Console.WriteLine(options);
-            Console.WriteLine(option1);
-            Console.WriteLine(option2);
-            Console.WriteLine("Or enter nothing to go back to the HomePage");
-            ShowOptions(UpdatePeople, UpdateCourseClasses, HomePage);
-        }
-
-        private static void UpdateCourseClasses()
-        {
-            const string options = "Which kind of object do you want to Update?";
-            const string option1 = "1. Course";
-            const string option2 = "2. Class";
-
-            Console.WriteLine(options);
-            Console.WriteLine(option1);
-            Console.WriteLine(option2);
-            Console.WriteLine("Or enter nothing to go back to the HomePage");
-            ShowOptions(UpdateCourses, UpdateClasses, HomePage);
-        }
-
+        
         private static void UpdateCourses(int start=0)
         {
             ViewCourses(start,"Update");
-        }
-
-        private static void UpdatePeople()
-        {
-            const string option1 = "1. Update Pupils Details";
-            const string option2 = "2. Update Teacher Details";
-
-
-            Console.WriteLine();
-            Console.WriteLine(option1);
-            Console.WriteLine(option2);
-            Console.WriteLine("Or enter nothing to go back");
-            ShowOptions(UpdatePupils, UpdateTeachers, ViewStuff);
         }
 
         private static void UpdatePupils(int start = 0)
@@ -1269,6 +1246,63 @@ namespace School_Management
         private static void UpdateClass(CourseClass course)
         {
             throw new NotImplementedException();
+        }
+        
+        private static void RemoveStuff()
+        {
+            const string options = "Which kind of object do you want to Remove?";
+            const string option1 = "1. Pupil";
+            const string option2 = "2. Teacher";
+            const string option3 = "3. Course";
+            const string option4 = "4. Class";
+
+            Console.WriteLine(options);
+            Console.WriteLine(option1);
+            Console.WriteLine(option2);
+            Console.WriteLine(option3);
+            Console.WriteLine(option4);
+            Console.WriteLine("Or enter nothing to go back to the HomePage");
+            ShowOptions(RemovePupils, RemoveTeachers,RemoveCourses,RemoveClasses, HomePage);
+        }
+        
+
+        private static void RemoveClasses(int start=0)
+        {
+            ViewClasses(start,"Remove");
+        }
+
+        private static void RemoveCourses(int start=0)
+        {
+            ViewCourses(start,"Remove");
+        }
+
+        private static void RemoveTeachers(int start=0)
+        {
+            ViewTeachers(start,"Remove");
+        }
+
+        private static void RemovePupils(int start=0)
+        {
+            ViewPupils(start,"Remove");
+        }
+        private static void RemoveClass(CourseClass courseClass)
+        {
+            courseClass.RemoveSelf();
+        }
+
+        private static void RemoveCourse(ICourse course)
+        {
+            course.RemoveSelf();
+        }
+
+        private static void RemoveTeacher(ISchoolMember person)
+        {
+            person.RemoveSelf();
+        }
+
+        private static void RemovePupil(ISchoolMember person)
+        {
+            person.RemoveSelf();
         }
     }
 }

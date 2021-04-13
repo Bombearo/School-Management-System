@@ -106,5 +106,10 @@ namespace School_Management
             var db = new DataAccess();
             db.UpdateClass(this.ClassId,courseId,time,dayOfWeek,teacherId);
         }
+
+        public void RemoveSelf()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

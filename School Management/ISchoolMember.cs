@@ -13,5 +13,6 @@ namespace School_Management
         DateTime DateJoined { get; set; }
 
         int PersonId { get; set; }
+        void RemoveSelf();
     }
 }

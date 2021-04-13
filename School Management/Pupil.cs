@@ -47,6 +47,7 @@ namespace School_Management
         }
         public int PupilId { get; set; }
         public int PersonId { get; set; }
+
         public DateTime DateJoined { get; set; }
 
         public override string ShowDetails()
@@ -73,6 +74,11 @@ namespace School_Management
             DataAccess db = new DataAccess();
 
             db.UpdatePupil(this.PersonId,forename,surname,dob,contactNo,emailAddress,dateJoined);
+        }
+        public void RemoveSelf()
+        {
+            var db = new DataAccess();
+            DataAccess.RemovePupil(this.PersonId);
         }
     }
 }

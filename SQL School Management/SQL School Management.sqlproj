@@ -98,4 +98,8 @@
     <None Include="PublishLocations\SchoolDB.publish.xml" />
     <None Include="PublishLocations\LocalDBPublish.publish.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="dbo\Stored Procedures\Pupil_Delete.sql" />
+    <Content Include="dbo\Stored Procedures\Teacher_Delete.sql" />
+  </ItemGroup>
 </Project>
