@@ -78,7 +78,7 @@ namespace School_Management
         public void RemoveSelf()
         {
             var db = new DataAccess();
-            DataAccess.RemovePupil(this.PersonId);
+            db.RemovePupil(this.PersonId,this.PupilId);
         }
     }
 }

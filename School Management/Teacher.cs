@@ -121,7 +121,7 @@ namespace School_Management
         {
             var db = new DataAccess();
 
-            DataAccess.RemoveTeacher(this.PersonId);
+            db.RemoveTeacher(this.PersonId);
         }
     }
 }

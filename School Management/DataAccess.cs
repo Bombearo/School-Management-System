@@ -284,11 +284,12 @@ namespace School_Management
             }
         }
 
-        public static void RemovePupil(int personId)
+        public void RemovePupil(int personId,int pupilId)
         {
             var parameters = new DynamicParameters();
             
             parameters.Add("@PersonId",personId);
+            parameters.Add("@PupilId", pupilId);
             
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
@@ -298,11 +299,12 @@ namespace School_Management
             }
         }
 
-        public static void RemoveTeacher(int personId)
+        public void RemoveTeacher(int personId)
         {
             var parameters = new DynamicParameters();
 
             parameters.Add("@PersonId", personId);
+            
 
             using (IDbConnection connection = new SqlConnection(Helper.GetConnectionString("SchoolDB")))
             {
