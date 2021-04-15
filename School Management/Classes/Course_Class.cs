@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using School_Management.Interfaces;
+using School_Management.Utilities;
 
-namespace School_Management
+namespace School_Management.Classes
 {
     class CourseClass:Course,IClass
     {
-        /*
-         System.InvalidOperationException: 'A parameterless default constructor or one matching signature (System.Int32 ClassId, System.String Subject, System.String Level,
-        System.Int32 Scqf, System.Int32 CourseId, System.Int32 TeacherId, System.TimeSpan ClassTime) is required for School_Management.Course_Class materialization'
-         
-         */
 
 
         //Database Constructor

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace School_Management
+namespace School_Management.Interfaces
 {
     public interface IClass:ICourse
     {

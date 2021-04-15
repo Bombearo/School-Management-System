@@ -1,4 +1,4 @@
-﻿namespace School_Management
+﻿namespace School_Management.Interfaces
 {
     public interface ICourse
     {

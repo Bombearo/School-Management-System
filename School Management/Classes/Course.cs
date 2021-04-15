@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using School_Management.Interfaces;
+using School_Management.Utilities;
 
-namespace School_Management
+namespace School_Management.Classes
 {
     class Course:ICourse
     {
