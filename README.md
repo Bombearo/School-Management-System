@@ -6,4 +6,4 @@ This is a simple CRUD console application to View, Add, Update, Delete pupils, t
 
 
 ### PROJECT STATUS
-😓As of 22/04/2021, this project will not be updated indefinitely. The console application is not fit for the operations I originally planned, but may come back to the database to create a GUI in the future
+😓As of 22/04/2021, this project will be on hold indefinitely. The console application is not fit for the operations I originally planned, but may come back to the database to create a GUI in the future
