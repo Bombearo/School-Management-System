@@ -14,7 +14,7 @@ namespace School_Management.Classes
             this.EmailAddress = emailAddress;
         }
         
-        public string Forename{get; protected set; }
+        public string Forename{get; set; }
         public string Surname { get; protected set; }
 
         public string Name => $"{Forename} {Surname}";

@@ -4,7 +4,7 @@ using School_Management.Utilities;
 
 namespace School_Management.App
 {
-    public partial class Views
+    public static partial class Views
     {
         
 

@@ -4,7 +4,7 @@ using School_Management.Interfaces;
 
 namespace School_Management.App
 {
-    public partial class Views
+    public static partial class Views
     {
                 private static void UpdateStuff()
         {
@@ -214,12 +214,15 @@ namespace School_Management.App
 
         private static void UpdateClasses(int start = 0)
         {
-            ViewClasses(start, "Update");
+            //ViewClasses(start, "Update");
+            Console.WriteLine("Unfortunately, this feature will not be implemented");
+            AddStuff();
         }
 
         private static void UpdateClass(CourseClass course)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Unfortunately, this feature will not be implemented");
+            UpdateStuff();
         }
     }
 }

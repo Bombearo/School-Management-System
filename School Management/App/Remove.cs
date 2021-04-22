@@ -3,7 +3,7 @@ using School_Management.Interfaces;
 
 namespace School_Management.App
 {
-    public partial class Views
+    public static partial class Views
     {
         private static void RemoveStuff()
         {
@@ -25,7 +25,8 @@ namespace School_Management.App
 
         private static void RemoveClasses(int start=0)
         {
-            ViewClasses(start,"Remove");
+            Console.WriteLine("Unfortunately, this feature will not be implemented");
+            RemoveStuff();
         }
 
         private static void RemoveCourses(int start=0)

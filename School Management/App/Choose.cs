@@ -5,9 +5,9 @@ using School_Management.Classes;
 
 namespace School_Management.App
 {
-    public partial class Views
+    public static partial class Views
     {
-                private static TimeSpan ChooseTime()
+         private static TimeSpan ChooseTime()
         {
             var periods = new[] { "P1","P2","P3","P4","P5","P6"};
             var times = new[]

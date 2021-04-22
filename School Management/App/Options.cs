@@ -4,7 +4,7 @@ using School_Management.Interfaces;
 
 namespace School_Management.App
 {
-    public partial class Views
+    public static partial class Views
     {
                 //Show Options overloads
         private static void ShowOptions(Action<int> option1, Action<int> option2,Action<int> option3,Action<int> option4, Action back,int start = 0)

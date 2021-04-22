@@ -2,7 +2,7 @@
 
 namespace School_Management.App
 {
-    public partial class Views
+    public static partial class Views
     {
         private static bool CheckCancel(string[] possibleAnswers)
         {

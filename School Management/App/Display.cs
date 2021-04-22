@@ -5,12 +5,12 @@ using School_Management.Interfaces;
 
 namespace School_Management.App
 {
-    public partial class Views
+    public static partial class Views
     {
         private static void DisplayPeopleOptions(IEnumerable<ISchoolMember> peopleList)
         {
             var counter = 0;
-            foreach (ISchoolMember person in peopleList)
+            foreach (var person in peopleList)
             {
                 if (person != null)
                 {

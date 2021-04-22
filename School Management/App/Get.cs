@@ -4,7 +4,7 @@ using School_Management.Interfaces;
 
 namespace School_Management.App
 {
-    public partial class Views
+    public static partial class Views
     {
         private static ISchoolMember[] GetPeople(int start,List<ISchoolMember> students,int length)
         {

@@ -313,6 +313,16 @@ namespace School_Management.Utilities
                     commandType: CommandType.StoredProcedure);
             }
         }
+
+        public void RemoveClass(int classId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveCourse(int courseId)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

@@ -103,7 +103,8 @@ namespace School_Management.Classes
 
         public void RemoveSelf()
         {
-            throw new NotImplementedException();
+            var db = new DataAccess();
+            db.RemoveClass(this.ClassId);
         }
     }
 }

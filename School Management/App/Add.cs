@@ -3,7 +3,7 @@ using School_Management.Classes;
 
 namespace School_Management.App
 {
-    public partial class Views
+    public static partial class Views
     { 
         private static void AddStuff()
         {
@@ -149,7 +149,7 @@ namespace School_Management.App
         }
         private static void AddClass()
         {
-            var addAnother = "";
+            /*var addAnother = "";
             var possibleAnswers = new[] { "y", "ye", "yes" };
             do
             {
@@ -184,6 +184,9 @@ namespace School_Management.App
                 Console.WriteLine("Add another course? (Y/N)");
                 addAnother = Console.ReadLine();
             } while (Array.Exists(possibleAnswers, answer => addAnother != null && answer == addAnother.ToLower()));
+            AddStuff();*/
+            
+            Console.WriteLine("Unfortunately, this feature will not be implemented");
             AddStuff();
         }
     }
